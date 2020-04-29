@@ -5,6 +5,10 @@ import store from './store'
 
 import './router/permission'
 
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+Vue.use(VueAxios, axios)
+
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 

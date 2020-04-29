@@ -1,4 +1,3 @@
-import axios from '@/utils/request'
 const api = {
     questionPre: '/api/question'
 }
