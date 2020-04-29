@@ -1,6 +1,6 @@
 import axios from '@/utils/request'
 const api = {
-    answerPre = '/api/answer'
+    answerPre: '/api/answer'
 }
 
 export function addAnswersAPI(data) {

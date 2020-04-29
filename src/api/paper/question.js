@@ -1,6 +1,6 @@
 import axios from '@utils/request'
 const api = {
-    questionPre = '/api/question'
+    questionPre: '/api/question'
 }
 
 export function addQuestionsAPI(data) {

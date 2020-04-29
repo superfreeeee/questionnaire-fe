@@ -1,6 +1,6 @@
 import axios from '@utils/request'
 const api = {
-    paperPre = '/api/paper'
+    paperPre: '/api/paper'
 }
 
 export function addPaperAPI(data) {

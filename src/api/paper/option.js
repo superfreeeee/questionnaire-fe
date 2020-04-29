@@ -1,6 +1,6 @@
 import axios from '@utils/request'
 const api = {
-    optionsPre = '/api/options'
+    optionsPre: '/api/options'
 }
 
 export function addOptionsAPI(data) {

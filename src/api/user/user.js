@@ -1,6 +1,6 @@
 import axios from '@util/request'
 const api = {
-    userPre = '/api/user'
+    userPre: '/api/user'
 }
 
 export function loginAPI(data) {
