@@ -7,7 +7,7 @@ export function addQuestionsAPI(data) {
     return axios({
         url: `${api.questionPre}/addQuestions`,
         method: 'POST',
-        date
+        data
     })
 }
 
