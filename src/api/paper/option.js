@@ -22,7 +22,6 @@ export function updateOptionAPI(data) {
 export function deleteOptionAPI(id) {
     return axios({
         url: `${api.optionsPre}/${id}/deleteOption`,
-        mathod: 'POST',
-        id
+        method: 'POST',
     })
 }

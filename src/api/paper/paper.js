@@ -23,7 +23,6 @@ export function invalidatePaperAPI(paperId) {
     return axios({
         url: `${api.paperPre}/${paperId}/invalidatePaper`,
         method: 'GET',
-        paperId
     })
 }
 
@@ -31,7 +30,6 @@ export function getUserPapers(userId) {
     return axios({
         url: `${api.paperPre}/${userId}/getUserPapers`,
         method: 'GET',
-        userId
     })
 }
 
@@ -39,7 +37,6 @@ export function checkPaperAPI(paperId) {
     return axios({
         url: `${api.paperPre}/${paperId}/checkPaper`,
         method: 'GET',
-        paperId
     })
 }
 
@@ -47,6 +44,5 @@ export function reviewPaperAPI(paperId) {
     return axios({
         url: `${api.paperPre}/${paperId}/reviewPaper`,
         method: 'GET',
-        paperId
     })
 }

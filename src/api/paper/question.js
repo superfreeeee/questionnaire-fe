@@ -23,6 +23,5 @@ export function deleteQuestion(questionId) {
     return axios({
         url: `${api.questionPre}/${questionId}/deleteQuestion`,
         method: 'GET',
-        questionId
     })
 }
