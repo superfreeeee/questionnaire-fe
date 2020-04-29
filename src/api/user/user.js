@@ -3,7 +3,7 @@ const api = {
 }
 
 export function loginAPI(data) {
-    return axios({
+    return this.axios({
         url: `${api.userPre}/login`,
         method: 'POST',
         data
@@ -11,7 +11,7 @@ export function loginAPI(data) {
 }
 
 export function registerAPI(data) {
-    return axios({
+    return this.axios({
         url: `${api.userPre}/register`,
         method: 'POST',
         data

@@ -3,7 +3,7 @@ const api = {
 }
 
 export function addPaperAPI(data) {
-    return axios({
+    return this.axios({
         url: `${api.paperPre}/addPaper`,
         method: 'POST',
         data
@@ -11,7 +11,7 @@ export function addPaperAPI(data) {
 }
 
 export function updatePaperAPI(data) {
-    return axios({
+    return this.axios({
         url: `${api.paperPre}/updatePaper`,
         method: 'POST',
         data
@@ -19,28 +19,28 @@ export function updatePaperAPI(data) {
 }
 
 export function invalidatePaperAPI(paperId) {
-    return axios({
+    return this.axios({
         url: `${api.paperPre}/${paperId}/invalidatePaper`,
         method: 'GET',
     })
 }
 
 export function getUserPapers(userId) {
-    return axios({
+    return this.axios({
         url: `${api.paperPre}/${userId}/getUserPapers`,
         method: 'GET',
     })
 }
 
 export function checkPaperAPI(paperId) {
-    return axios({
+    return this.axios({
         url: `${api.paperPre}/${paperId}/checkPaper`,
         method: 'GET',
     })
 }
 
 export function reviewPaperAPI(paperId) {
-    return axios({
+    return this.axios({
         url: `${api.paperPre}/${paperId}/reviewPaper`,
         method: 'GET',
     })

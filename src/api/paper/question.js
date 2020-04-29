@@ -3,7 +3,7 @@ const api = {
 }
 
 export function addQuestionsAPI(data) {
-    return axios({
+    return this.axios({
         url: `${api.questionPre}/addQuestions`,
         method: 'POST',
         data
@@ -11,7 +11,7 @@ export function addQuestionsAPI(data) {
 }
 
 export function updateQuestionAPI(data) {
-    return axios({
+    return this.axios({
         url: `${api.questionPre}/updateQuestion`,
         method: 'POST',
         data
@@ -19,7 +19,7 @@ export function updateQuestionAPI(data) {
 }
 
 export function deleteQuestion(questionId) {
-    return axios({
+    return this.axios({
         url: `${api.questionPre}/${questionId}/deleteQuestion`,
         method: 'GET',
     })

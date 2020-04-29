@@ -3,7 +3,7 @@ const api = {
 }
 
 export function addAnswersAPI(data) {
-    return axios({
+    return this.axios({
         url: `${api.answerPre}/addAnswers`,
         method: 'POST',
         data

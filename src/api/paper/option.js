@@ -3,7 +3,7 @@ const api = {
 }
 
 export function addOptionsAPI(data) {
-    return axios({
+    return this.axios({
         url: `${api.optionsPre}/addOptions`,
         method: 'POST',
         data
@@ -11,7 +11,7 @@ export function addOptionsAPI(data) {
 }
 
 export function updateOptionAPI(data) {
-    return axios({
+    return this.axios({
         url: `${api.optionsPre}/updateOption`,
         method: 'POST',
         data
@@ -19,7 +19,7 @@ export function updateOptionAPI(data) {
 }
 
 export function deleteOptionAPI(id) {
-    return axios({
+    return this.axios({
         url: `${api.optionsPre}/${id}/deleteOption`,
         method: 'POST',
     })
