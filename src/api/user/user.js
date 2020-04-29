@@ -1,7 +1,20 @@
-export function loginAPI() {
-  
+import axios from '@util/request'
+const api = {
+    userPre = '/api/user'
 }
 
-export function registerAPI() {
-  
+export function loginAPI(data) {
+    return axios({
+        url: `${api.userPre}/login`,
+        method: 'POST',
+        data
+    })
+}
+
+export function registerAPI(data) {
+    return axios({
+        url: `${api.userPre}/register`,
+        method: 'POST',
+        data
+    })
 }
