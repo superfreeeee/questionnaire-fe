@@ -21,6 +21,19 @@
         </el-button>
       </div>
     </el-card>
+    <div v-for="(item, index) in inputs" :key='index'>
+    <el-input
+      style="width: 200px; margin: 0 auto"
+      v-model="inputs[index]"
+    ></el-input>
+    <el-button @click="del(index)">x</el-button>
+    </div>
+    <el-button
+      v-if="!addOptionActive"
+      style="display: block; width: 200px; margin: 0 auto"
+      @click="addOption()"
+    >+</el-button>
+    
   </div>
 </template>
 
@@ -30,7 +43,10 @@ export default {
   data() {
     return {
       currentPage: 'login',
-      form: {}
+      form: {},
+
+      addOptionActive: false,
+      inputs: ['0', '1']
     }
   },
   mounted() {
@@ -53,6 +69,13 @@ export default {
     submitLogin() {
       console.log(this.form)
       this.$router.push('editor')
+    },
+
+    addOption() {
+      this.inputs.push('')
+    },
+    del(index) {
+      this.inputs.splice(index, 1)
     }
   }
 }
