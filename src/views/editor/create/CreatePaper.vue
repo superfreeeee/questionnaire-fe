@@ -1,8 +1,9 @@
 <template>
   <el-dialog 
     :visible="createPaperVisible"
-    @cancel="cancel()"  
+    @close="close()"
   >
+    <h1>Create Paper</h1>
     <el-button @click="createPaper()">create</el-button>
   </el-dialog>
 </template>
@@ -22,10 +23,13 @@ export default {
       'set_createPaperVisible'
     ]),
     createPaper() {
-      this.$router.push('/editor/create')
+      if(this.$route.path !== '/editor/create') {
+        this.$router.push('/editor/create')
+      }
       this.set_createPaperVisible(false)
     },
-    cancel() {
+    close() {
+      // console.log(close)
       this.set_createPaperVisible(false)
     }
   }
