@@ -6,9 +6,10 @@ const paper = {
   state: {
     paperList: [],  /* Paper[] */
     currentPaperId: '',
-    questionList: []  /* Question[] */
+    questionList: [],  /* Question[] */
+    createPaperVisible: false
   },
-  mutation: {
+  mutations: {
     set_paperList(state, paperList) {
       state.paperList = paperList
     },
@@ -20,22 +21,29 @@ const paper = {
     },
     add_question(state, question) {
       state.questionList.push(question)
+    },
+    set_createPaperVisible(state, bool) {
+      state.createPaperVisible = bool
     }
   },
   actions: {
     // 浏览相关
     getAllPapers: async({ commit }, userId) => {
-
+      commit
+      userId
     },
     showPaperQuestions: async({ commit }, paperId) => {
-      
+      commit
+      paperId
     },
     // 创建相关
     createPaper: async({ commit }, userId) => {
-
+      commit
+      userId
     },
     addQuestion: async({ commit }, question/* Question */) => {
-
+      commit
+      question
     },
   }
 }

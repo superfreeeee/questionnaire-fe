@@ -25,17 +25,17 @@ const routes = [
     component: () => import('../views/editor/Editor'),
     children: [
       {
-        path: '/(overview)?',
+        path: 'overview',
         name: 'overview',
         component: () => import('../views/editor/overview/Overview')
       },
       {
-        path: '/create',
+        path: 'create',
         name: 'create',
         component: () => import('../views/editor/create/Create')
       },
       {
-        path: '/monitor',
+        path: 'monitor/:paperId',
         name: 'monitor',
         component: () => import('../views/editor/monitor/Monitor')
       },

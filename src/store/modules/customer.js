@@ -7,7 +7,7 @@ const paper = {
     paperInfo: {},  /* Paper */
     questionList: []  /* Question[] */
   },
-  mutation: {
+  mutations: {
     set_paperInfo(state, paperInfo) {
       state.paperInfo = paperInfo
     },
@@ -17,7 +17,8 @@ const paper = {
   },
   actions: {
     getPaper: async({ commit }, paperId) => {
-
+      commit
+      paperId
     }
   }
 }

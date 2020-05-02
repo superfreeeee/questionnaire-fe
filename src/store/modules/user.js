@@ -7,7 +7,7 @@ const user = {
     loginState: false,
     userInfo: {}  /* UserInfo */
   },
-  mutation: {
+  mutations: {
     set_loginState(state, bool) {
       state.loginState = bool
     },
@@ -17,13 +17,16 @@ const user = {
   },
   actions: {
     login: async({ commit }, loginParam/* UserParam */) => {
-
+      commit
+      loginParam
     },
     register: async({ commit }, registerParam/* UserParam */) => {
-
+      commit
+      registerParam
     },
     logout: async({ commit }, registerParam/* UserParam */) => {
-
+      commit
+      registerParam
     },
   }
 }

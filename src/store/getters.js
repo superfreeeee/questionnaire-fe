@@ -4,7 +4,7 @@ const getters = {
   userId: state => state.user.userId,
   userName: state => state.user.userName,
   // 问卷相关
-  
+  createPaperVisible: state => state.paper.createPaperVisible
 }
 
 export default getters

@@ -21,21 +21,6 @@
         </el-button>
       </div>
     </el-card>
-    <div v-for="(item, index) in inputs" :key='index'>
-      <el-input
-        :ref="'op'+index"
-        style="width: 200px; margin: 0 auto"
-        v-model="inputs[index]"
-        @focus="focus()"
-      ></el-input>
-      <el-button @click="del(index)">x</el-button>
-    </div>
-    <el-button
-      v-if="!addOptionActive"
-      style="display: block; width: 200px; margin: 0 auto"
-      @click="addOption()"
-    >+</el-button>
-    
   </div>
 </template>
 
@@ -70,21 +55,7 @@ export default {
     },
     submitLogin() {
       console.log(this.form)
-      this.$router.push('editor')
-    },
-
-    addOption() {
-      this.inputs.push('')
-      const idx = this.inputs.length - 1
-      this.$nextTick(() => {
-        this.$refs['op'+idx][0].focus()
-      })
-    },
-    del(index) {
-      this.inputs.splice(index, 1)
-    },
-    focus() {
-      console.log('focus')
+      this.$router.push({ name: 'overview' })
     }
   }
 }
