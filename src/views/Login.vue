@@ -7,7 +7,7 @@
           新用户？前往注册
         </el-button>
       </div>
-      <el-form ref="form" :model="form" label-width="80px">
+      <el-form ref="userParam" :model="userParam" label-width="80px">
         <el-form-item>
           <el-button style="width: 80%" type="primary" @click="submitLogin">登入</el-button>
         </el-form-item>
@@ -25,15 +25,17 @@
 </template>
 
 <script>
+import { mapMutations, mapActions } from 'vuex'
+
 export default {
   name: 'Login',
   data() {
     return {
       currentPage: 'login',
-      form: {},
-
-      addOptionActive: false,
-      inputs: ['0', '1']
+      userParam: {
+        name: '',
+        password: ''
+      },
     }
   },
   mounted() {
@@ -50,11 +52,24 @@ export default {
     document.onkeypress = null
   },
   methods: {
+    ...mapMutations([
+      'set_loginState',
+      'set_userInfo'
+    ]),
+    ...mapActions([
+
+    ]),
     goto(page) {
       this.currentPage = page
     },
     submitLogin() {
-      console.log(this.form)
+      console.log(this.userParam)
+      this.set_loginState(true)
+      this.set_userInfo({
+        id: 0,
+        name: 'John',
+        password: '???'
+      })
       this.$router.push({ name: 'overview' })
     }
   }

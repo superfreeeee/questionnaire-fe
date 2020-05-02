@@ -40,7 +40,7 @@ const routes = [
         component: () => import('../views/editor/monitor/Monitor')
       },
     ]
-  },
+  }
 ]
 
 const router = new VueRouter({

@@ -1,6 +1,10 @@
 <template>
   <el-container class="editor">
-    <el-header>Header</el-header>
+    <el-header style="text-align: right; font-size: 20px">
+      <span>{{ userInfo.name }}</span>
+      <el-divider direction="vertical"></el-divider>
+      <el-button type="text" @click="logout()">登出</el-button>
+    </el-header>
     <el-container>
       <el-aside width="200px">
         <el-menu @select="handleMenuSelect">
@@ -24,16 +28,23 @@
 
 <script>
 import CreatePaper from './create/CreatePaper'
-import { mapMutations } from 'vuex';
+import { mapMutations, mapGetters } from 'vuex';
 
 export default {
   name: 'Editor',
   components: {
     CreatePaper
   },
+  computed: {
+    ...mapGetters([
+      'userInfo'
+    ])
+  },
   methods: {
     ...mapMutations([
-      'set_createPaperVisible'
+      'set_createPaperVisible',
+      'set_loginState',
+      'set_userInfo'
     ]),
     handleMenuSelect(index) {
       if(index === 'overview') {
@@ -44,6 +55,12 @@ export default {
       } else if(index === 'create') {
         this.set_createPaperVisible(true)
       }
+    },
+    logout() {
+      // console.log('logout')
+      this.set_loginState(false)
+      this.set_userInfo({})
+      this.$router.push('/login')
     }
   }
 }

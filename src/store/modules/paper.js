@@ -5,8 +5,9 @@ import {
 const paper = {
   state: {
     paperList: [],  /* Paper[] */
-    currentPaperId: '',
-    questionList: [],  /* Question[] */
+    paperDetail: {  /* PaperDetail */
+
+    },
     createPaperVisible: false
   },
   mutations: {
