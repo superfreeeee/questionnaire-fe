@@ -1,7 +1,7 @@
 <template>
   <el-container class="editor">
     <el-header>Header</el-header>
-    <el-container>
+    <el-container style="height: 100%">
       <el-aside width="200px">
         <el-menu router>
           <el-menu-item index="overview">
