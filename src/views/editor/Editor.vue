@@ -1,6 +1,13 @@
 <template>
   <el-container class="editor">
-    <el-header>Header</el-header>
+    <el-header>
+      <div class="editor-header">
+        <span style="float: left; font-size: 30px">
+          <i class="el-icon-edit"></i>
+          My Questionnaire
+        </span>
+      </div>
+    </el-header>
     <el-container style="height: 100%">
       <el-aside width="200px">
         <el-menu @select="handleMenuSelect">
@@ -63,7 +70,16 @@ export default {
 </script>
 
 <style>
+* {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
 .editor {
   height: 100%;
+}
+
+.editor-header {
+  height: 100%;
+  padding: 10px 40px;
 }
 </style>
