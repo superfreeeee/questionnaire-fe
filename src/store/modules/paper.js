@@ -5,38 +5,50 @@ import {
 const paper = {
   state: {
     paperList: [],  /* Paper[] */
-    currentPaperId: '',
-    questionList: []  /* Question[] */
+    questionList: [  /* Question[] */
+      
+    ],
+    createPaperVisible: false
   },
-  mutation: {
+  mutations: {
     set_paperList(state, paperList) {
       state.paperList = paperList
-    },
-    set_currentPaperId(state, paperId) {
-      state.currentPaperId = paperId
     },
     set_questionList(state, questionList) {
       state.questionList = questionList
     },
+    add_paper(state, paper) {
+      state.paper.push(paper)
+    },
     add_question(state, question) {
       state.questionList.push(question)
+    },
+    set_createPaperVisible(state, bool) {
+      state.createPaperVisible = bool
     }
   },
   actions: {
     // 浏览相关
     getAllPapers: async({ commit }, userId) => {
-
+      commit
+      userId
     },
-    showPaperQuestions: async({ commit }, paperId) => {
-      
+    getAllQuestions: async({ commit }, paperId) => {
+      commit
+      paperId
     },
     // 创建相关
-    createPaper: async({ commit }, userId) => {
-
+    createPaper: async({ commit }, paper/* Paper */) => {
+      commit
+      paper
     },
-    addQuestion: async({ commit }, question/* Question */) => {
-
+    createQuestion: async({ commit }, question/* Question */) => {
+      commit
+      question
     },
+    updateQuestion: async() => {
+      
+    }
   }
 }
 

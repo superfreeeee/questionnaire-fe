@@ -4,10 +4,11 @@ import {
 
 const paper = {
   state: {
-    paperInfo: {},  /* Paper */
-    questionList: []  /* Question[] */
+    paper: {}, /* Paper */
+    questions: [], /* Questions */
+    answers: [] /* Answer[] */
   },
-  mutation: {
+  mutations: {
     set_paperInfo(state, paperInfo) {
       state.paperInfo = paperInfo
     },
@@ -16,8 +17,14 @@ const paper = {
     }
   },
   actions: {
-    getPaper: async({ commit }, paperId) => {
+    getPaper: () => {
 
+    },
+    getQuestions: () => {
+
+    },
+    submitAnswers: () => {
+      
     }
   }
 }

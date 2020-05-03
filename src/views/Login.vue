@@ -7,7 +7,7 @@
           新用户？前往注册
         </el-button>
       </div>
-      <el-form ref="form" :model="form" label-width="80px">
+      <el-form ref="userParam" :model="userParam" label-width="80px">
         <el-form-item>
           <el-button style="width: 80%" type="primary" @click="submitLogin">登入</el-button>
         </el-form-item>
@@ -21,34 +21,21 @@
         </el-button>
       </div>
     </el-card>
-    <div v-for="(item, index) in inputs" :key='index'>
-      <el-input
-        :ref="'op'+index"
-        style="width: 200px; margin: 0 auto"
-        v-model="inputs[index]"
-        @focus="focus()"
-      ></el-input>
-      <el-button @click="del(index)">x</el-button>
-    </div>
-    <el-button
-      v-if="!addOptionActive"
-      style="display: block; width: 200px; margin: 0 auto"
-      @click="addOption()"
-    >+</el-button>
-    
   </div>
 </template>
 
 <script>
+import { mapMutations, mapActions } from 'vuex'
+
 export default {
   name: 'Login',
   data() {
     return {
       currentPage: 'login',
-      form: {},
-
-      addOptionActive: false,
-      inputs: ['0', '1']
+      userParam: {
+        name: '',
+        password: ''
+      },
     }
   },
   mounted() {
@@ -65,26 +52,25 @@ export default {
     document.onkeypress = null
   },
   methods: {
+    ...mapMutations([
+      'set_loginState',
+      'set_userInfo'
+    ]),
+    ...mapActions([
+
+    ]),
     goto(page) {
       this.currentPage = page
     },
     submitLogin() {
-      console.log(this.form)
-      this.$router.push('editor')
-    },
-
-    addOption() {
-      this.inputs.push('')
-      const idx = this.inputs.length - 1
-      this.$nextTick(() => {
-        this.$refs['op'+idx][0].focus()
+      console.log(this.userParam)
+      this.set_loginState(true)
+      this.set_userInfo({
+        id: 0,
+        name: 'John',
+        password: '???'
       })
-    },
-    del(index) {
-      this.inputs.splice(index, 1)
-    },
-    focus() {
-      console.log('focus')
+      this.$router.push({ name: 'overview' })
     }
   }
 }
