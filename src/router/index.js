@@ -10,6 +10,11 @@ const routes = [
     redirect: '/login'
   },
   {
+    path: '/customer/:paperId/complete',
+    name: 'complete',
+    component: () => import('../views/customer/afterSubmit/AfterSubmit'),
+  },
+  {
     path: '/customer/:paperId',
     name: 'customer',
     component: () => import('../views/customer/Customer')

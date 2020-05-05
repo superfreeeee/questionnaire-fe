@@ -1,16 +1,16 @@
 <template>
   <div class="bg">
     <div class='customer'>
-      <div class="title">{{ title }}</div>
-      <div class="subtitle">{{ subtitle }}</div>
+      <div class="title">{{ customerPaper.title }}</div>
+      <div class="subtitle">{{ customerPaper.description }}</div>
       <el-form
         class="questions"
         ref="customerForm"
-        :model="paper"
+        :model="customerPaper"
         label-position="top"
       >
         <div
-          v-for="(question, index) in paper.questionList"
+          v-for="(question, index) in customerPaper.questionList"
           :key="question.id"
         >
           <el-divider v-if="index !== 0"></el-divider>
@@ -27,12 +27,10 @@
               size="medium"
               rows="4"
               v-model="question.answer"
-              @change="change(question.answer)"
             ></el-input>
             <el-radio-group
               v-else-if="question.type === 1"
               v-model="question.answer"
-              @change="change(question.answer)"
             >
               <div
                 v-for="option in question.options"
@@ -48,7 +46,6 @@
             <el-checkbox-group
               v-if="question.type === 2"
               v-model="question.answer"
-              @change="change(question.answer)"
             >
               <div
                 v-for="option in question.options"
@@ -74,6 +71,7 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 // import Question from './components/CustomerQuestion'
 
 export default {
@@ -91,101 +89,27 @@ export default {
           { required: true, trigger: 'blur', message: '输入不可为空' }
         ]
       },
-      paperId: -1,
-      title: '问卷标题，大概最多会有20个字（。。。）',
-      subtitle: '一个大概会有30～50个字的说明一个大概会有30～50个字的说明一个大概会有30～50个字的说明一个大概会有30～50个字的说明一个大概会有30～50个字的说明一个大概会有30～50个字的说明一个大概会有30～50个字的说明一个大概会有30～50个字的说明一个大概会有30～50个字的说明',
-      paper: {
-        questionList: [
-          {
-            id: 1,
-            type: 1,
-            title: '单选题一',
-            options: [
-              {
-                id: 1,
-                questionId: 1,
-                content: '单选选项一'
-              },
-              {
-                id: 2,
-                questionId: 1,
-                content: '单选选项二'
-              },
-              {
-                id: 3,
-                questionId: 1,
-                content: '单选选项三'
-              },
-            ],
-            answer: ''
-          },
-          {
-            id: 2,
-            type: 2,
-            title: '多选题一',
-            options: [
-              {
-                id: 4,
-                questionId: 2,
-                content: '多选选项一'
-              },
-              {
-                id: 5,
-                questionId: 2,
-                content: '多选选项二'
-              },
-              {
-                id: 6,
-                questionId: 2,
-                content: '多选选项三'
-              },
-              {
-                id: 7,
-                questionId: 2,
-                content: '多选选项4'
-              },
-              {
-                id: 8,
-                questionId: 2,
-                content: '多选选项5'
-              },
-              {
-                id: 9,
-                questionId: 2,
-                content: '多选选项6'
-              },
-            ],
-            answer: []
-          },
-          {
-            id: 3,
-            type: 3,
-            title: '简答',
-            answer: ''
-          },
-        ],
-      }
-      
+      paperId: -1
     }
-  },
-  components: {
-    // Question
   },
   mounted() {
     this.paperId = this.$route.params.paperId
-    // for(let question of this.paper.questionList) {
-    //   if(question.type === 2) {
-    //     question.answer = []
-    //   } else {
-    //     question.answer = ''
-    //   }
-    // }
-    console.log(this.paper.questionList)
+    this.getFullPaper(this.paperId)
+    // console.log(`paperId: ${this.paperId}`)
+  },
+  computed: {
+    ...mapGetters([
+      'customerPaper'
+    ])
   },
   methods: {
+    ...mapActions([
+      'getFullPaper',
+      'submitAnswers'
+    ]),
     buildAnswers() {
       const answers = []
-      for(let question of this.paper.questionList) {
+      for(let question of this.customerPaper.questionList) {
         answers.push({
           questionId: question.id,
           content: question.answer
@@ -196,19 +120,17 @@ export default {
     submitAnswer() {
       this.$refs.customerForm.validate((valid) => {
         if(valid) {
-          console.log('valid')
+          // console.log('valid')
           const answers = this.buildAnswers()
-          console.log(answers)
+          // console.log(answers)
+          this.$store.dispatch('submitAnswers', answers)
           this.$message.success('提交成功')
-          
+          this.$router.push({ name: 'complete', params: { paperId: this.paperId } })
         } else {
-          console.log('Invalid')
+          // console.log('Invalid')
           this.$message.error('问卷不可有空栏')
         }
       })
-    },
-    change(model) {
-      console.log(model)
     }
   }
 }
@@ -217,23 +139,24 @@ export default {
 <style>
 .bg {
   width: 100vw;
-  min-height: 100vh;
+  height: 100vh;
   background: #efefef;
 }
 
 .customer {
+  box-sizing: border-box;
   padding-top: 40px;
   background: white;
   width: 50%;
-  min-height: 100vh;
+  height: 100vh;
   margin: 0 auto;
+  overflow: scroll;
 }
 
 .customer > .title {
   text-align: center;
   font-size: 40px;
 }
-
 .customer > .subtitle {
   font-size: 20px;
   width: 80%;
