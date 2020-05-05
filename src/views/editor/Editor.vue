@@ -8,7 +8,7 @@
         </span>
       </div>
     </el-header>
-    <el-container style="height: 100%">
+    <el-container>
       <el-aside width="200px">
         <el-menu @select="handleMenuSelect">
           <el-menu-item index="overview">

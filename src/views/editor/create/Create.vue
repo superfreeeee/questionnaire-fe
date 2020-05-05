@@ -31,11 +31,12 @@
         </el-input>
         <div v-if="ques.type === 0" style="float: left">
           <el-button style="display: block; margin-top: 10px" 
-          type="primary" 
-          size="mini"
-          icon="el-icon-plus"
-          @click="addOption()">
-          新增選項
+            type="primary" 
+            size="mini"
+            icon="el-icon-plus"
+            @click="addOption()"
+          >
+            新增選項
           </el-button>
           <el-checkbox-group v-model="questionList">
             <el-checkbox><el-input v-model="ques.options.option1"></el-input></el-checkbox>
