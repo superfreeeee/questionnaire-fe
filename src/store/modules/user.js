@@ -1,5 +1,5 @@
 import {
-  loginAPI,
+  // loginAPI,
   registerAPI
 } from '@/api'
 
@@ -18,18 +18,15 @@ const user = {
   },
   actions: {
     login: async({ commit }, loginParam/* UserParam */) => {
-      const res = await loginAPI(loginParam)
-      const userInfo = res.content
+      // const res = await loginAPI(loginParam)
+      // const userInfo = res.content
+      const userInfo = {...loginParam}
       if(userInfo) {
-        this.$notify.success({
-          title: '登入成功'
-        })
         commit('set_userInfo', userInfo)
         commit('set_loginState', true)
+        return true
       } else {
-        this.$notify.error({
-          title: '登入失败'
-        })
+        return false
       }
     },
     register: async(_, registerParam/* UserParam */) => {
