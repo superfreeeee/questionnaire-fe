@@ -15,7 +15,7 @@
     <el-divider />
     <el-form>
       <el-form-item
-        style="text-align: left;"
+        style="text-align: left"
         ref="questionList"
         label-width="100px"
         v-for="(ques, index) in questionList"
@@ -38,7 +38,7 @@
           新增選項
           </el-button>
             <div style="padding-right: 600px; margin-top: 10px;" v-for="(option, index) in ques.options" :key='index'>
-              <el-radio style="display: inline-block; margin-right: 20px" disabled=""></el-radio>
+              <el-radio style="display: inline-block" disabled=""></el-radio>
               <el-input style="display: inline-block; width: 200px" v-model="option.content"></el-input>
            </div>
         </div>
@@ -62,7 +62,7 @@
         placeholder="回答"
         style="width: 500px; margin:10px 0; padding-right: 400px;">
         </el-input>
-        <div style="padding-left: 500px; margin-top: 30px">
+        <div style="padding-left: 600px; margin-top: 30px">
           <el-button @click="delQues(index)" type="danger">刪除問題</el-button>
         </div>
         <el-divider />
@@ -205,5 +205,9 @@ export default {
 
 .el-checkbox:last-of-type {
   margin: none;
+}
+
+.el-radio {
+  margin: 0;
 }
 </style>
