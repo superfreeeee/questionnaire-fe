@@ -44,6 +44,11 @@ const routes = [
         name: 'monitor',
         component: () => import('../views/editor/monitor/Monitor')
       },
+      {
+        path: 'paperlink/:paperId',
+        name: 'paperlink',
+        component: () => import('../views/editor/create/PaperLink')
+      }
     ]
   }
 ]

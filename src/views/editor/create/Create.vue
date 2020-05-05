@@ -72,7 +72,7 @@
 
     </div>-->
     <div style="padding-bottom: 20px" v-if="Listempty">
-        <el-button type="success" @click="submitpaper()">發放問卷  !</el-button>
+        <el-button type="success" @click="submitpaper(paperId)">發放問卷  !</el-button>
         <el-divider direction = "vertical" />
         <el-dropdown @command="addQues">
           <el-button type="primary">新增問題<i class="el-icon-arrow-down el-icon--right"></i></el-button>
@@ -92,6 +92,7 @@ export default {
   name: 'Create',
   data() {
     return {
+      paperId: 12345,
       name: '問卷一',
       description: '',
       questionList: [
@@ -171,19 +172,16 @@ export default {
     addOption(question) {
       question.options.push({ content: '' })
     },
-    submitpaper() {
+    submitpaper(paperId) {
       console.log('submitPaper')
-      window.open(`http://localhost:8080/customer/12345`)
+      console.log(paperId)
+      this.$router.push({ name: 'paperlink', params: { paperId }})
     }
   }
 }
 </script>
 
 <style>
-.create {
-  background-color: ghostwhite;
-}
-
 .header {
   height: 50px;
   padding: 0 20px;

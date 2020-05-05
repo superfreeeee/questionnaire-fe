@@ -9,8 +9,8 @@ const user = {
     userInfo: {}  /* UserInfo */
   },
   mutations: {
-    set_loginState(state, bool) {
-      state.loginState = bool
+    set_loginState(state) {
+      state.loginState = true
     },
     set_userInfo(state, userInfo) {
       state.userInfo = userInfo
