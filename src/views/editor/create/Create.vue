@@ -172,7 +172,8 @@ export default {
       question.options.push({ content: '' })
     },
     submitpaper() {
-
+      console.log('submitPaper')
+      window.open(`http://localhost:8080/customer/12345`)
     }
   }
 }
