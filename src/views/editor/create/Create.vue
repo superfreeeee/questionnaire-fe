@@ -13,49 +13,69 @@
         >
     </el-input>
     <el-divider />
-    <!--<el-button type="primary" @click="addSingle" class="create-btn">單選</el-button>
-    <el-button type="primary" @click="addMultiple" class="create-btn">多選</el-button>
-    <el-button type="primary" @click="addInput" class="create-btn">填充</el-button>-->
-    <div style="margin-bottom: 30px; padding-left: 700px; padding-bottom: 30px">
-      <el-button @click="addQues(1)" type="primary">新增問題</el-button>
-      <el-button @click="delQues(index)" type="danger">刪除問題</el-button>
-    </div>
-    <el-form ref="questionList" label-width="100px" v-for="(ques, index) in questionList" :key= 'index'>
-      <el-form-item>
+    <el-form>
+      <el-form-item  ref="questionList" label-width="100px" v-for="(ques, index) in questionList" :key= 'index'>
         <el-input 
           type = "textarea"
           placeholder="请输入問題"
           v-model="ques.text"
-          style="width: 700px; float: left; border: 2px solid"
+          style="width: 700px; border: 2px solid; display: block"
         >
         </el-input>
-        <div v-if="ques.type === 0" style="float: left">
+        <div v-if="ques.type === 1">
           <el-button style="display: block; margin-top: 10px" 
-          type="primary" 
-          size="mini"
-          icon="el-icon-plus"
-          @click="addOption()">
+            type="primary" 
+            size="mini"
+            icon="el-icon-plus"
+            @click="addOption(ques)"
+          >
           新增選項
           </el-button>
-          <el-checkbox-group v-model="questionList">
-            <el-checkbox><el-input v-model="ques.options.option1"></el-input></el-checkbox>
-            <el-checkbox><el-input v-model="ques.options.option2"></el-input></el-checkbox>
-            <el-checkbox><el-input v-model="ques.options.option3"></el-input></el-checkbox>
-            <el-checkbox><el-input v-model="ques.options.option4"></el-input></el-checkbox>
-          </el-checkbox-group>
+            <div style="padding-right: 600px; margin-top: 10px" v-for="(option, index) in ques.options" :key='index'>
+              <el-radio style="display: inline-block; margin-right: 20px" disabled=""></el-radio>
+              <el-input style="display: inline-block; width: 200px" v-model="option.content"></el-input>
+           </div>
+        </div>
+        <div v-else-if="ques.type === 2">
+          <el-button style="display: block; margin-top: 10px" 
+            type="primary" 
+            size="mini"
+            icon="el-icon-plus"
+            @click="addOption(ques)"
+          >
+          新增選項
+          </el-button>
+            <div style="padding-right: 600px" v-for="(option, index) in ques.options" :key='index'>
+              <el-checkbox style="display: inline-block; margin-right: 10px" disabled=""></el-checkbox>
+              <el-input style="display: inline-block; width: 200px" v-model="option.content"></el-input>
+           </div>
         </div>
         <el-input 
         v-else 
-        v-model="ques.answer" 
         type="textarea"
         placeholder="回答"
-        style="width: 500px; float: left; margin:10px 0">
+        style="width: 500px; margin:10px 0; padding-right: 400px">
         </el-input>
+        <div style="padding-left: 500px; margin-top: 30px">
+          <el-button @click="delQues(index)" type="danger">刪除問題</el-button>
+        </div>
+        <el-divider />
       </el-form-item>
-      <el-divider />
     </el-form>
+    <!--<div style="margin-bottom: 30px; padding-left: 700px; padding-bottom: 30px">
+
+    </div>-->
     <div style="padding-bottom: 20px" v-if="Listempty">
-      <el-button type="success" @click="submitpaper()">發放問卷 !</el-button>
+        <el-button type="success" @click="submitpaper()">發放問卷  !</el-button>
+        <el-divider direction = "vertical" />
+        <el-dropdown @command="addQues">
+          <el-button type="primary">新增問題<i class="el-icon-arrow-down el-icon--right"></i></el-button>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item command=1>單選</el-dropdown-item>
+            <el-dropdown-item command=2>多選</el-dropdown-item>
+            <el-dropdown-item command=3>簡答</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
     </div>
   </div>
 </template>
@@ -70,36 +90,30 @@ export default {
       description: '',
       questionList: [
         {
-          type: 0, // 選擇
+          type: 1, // 單擇
           text: '',
           options: [
             {
-              option1: '',
-              option2: '',
-              option3: '',
-              option4: ''
+              content: ''
             }
           ]
         },
         {
-          type: 1, // 填充
+          type: 3, // 文字
           text: '',
           answer: ''
         },   
         {
-          type: 0,
+          type: 2, // 多選
           text: '',
           options: [
             {
-              option1: '',
-              option2: '',
-              option3: '',
-              option4: ''
+              content: ''
             }
           ]
         },
         {
-          type: 1,
+          type: 3,
           text: '',
           answer: ''
         }
@@ -114,31 +128,42 @@ export default {
   methods: {
     addQues(type) {
       console.log(type)
-      if(type === 0) {
+      if(type == 1) {
         const ques = {
-          type: 0, // 選擇
+          type: 1, // 單擇
           text: '',
           options: [
             {
-              option1: '',
-              option2: '',
-              option3: '',
-              option4: ''
+              content: ''
             }
           ]
         }
         this.questionList.push(ques)
-      }else {
-        const ques = {
-          type: 1,
-          text: '',
-          answer: ''
+      }else if(type == 2){
+          const ques = {
+            type: 2,
+            text: '',
+            options: [
+              {
+                content: ''
+              }
+            ]
+          }
+          this.questionList.push(ques)
+        }else {
+          const ques = {
+            type: 3,
+            text: '',
+            answer: ''
+          }
+          this.questionList.push(ques)
         }
-        this.questionList.push(ques)
-      }
-    },
+      },
     delQues(index) {
       this.questionList.splice(index, 1)
+    },
+    addOption(question) {
+      question.options.push({ content: '' })
     },
     submitpaper() {
 
@@ -164,7 +189,7 @@ export default {
 }
 
 .el-checkbox-group {
-  float: left;
+  padding-right: 700px;
 }
 
 .el-checkbox {
@@ -173,6 +198,6 @@ export default {
 }
 
 .el-checkbox:last-of-type {
-  margin: 0;
+  margin: none;
 }
 </style>
