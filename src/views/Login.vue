@@ -2,16 +2,35 @@
   <div class='login'>
     <el-card class="board" v-if="currentPage === 'login'">
       <div slot="header">
-        <span class="title">登入</span>
+        <span class="title">登录</span>
         <el-button style="float: right; padding: 3px 0" type="text" @click="goto('register')">
           新用户？前往注册
         </el-button>
       </div>
-      <el-form ref="userParam" :model="userParam" label-width="80px">
+
+      <el-form :model="loginForm" status-icon :rules="rules1" ref="loginForm" label-width="80px">
+        <el-form-item prop = "username1">
+          <el-input v-model="loginForm.username1"
+                    type="text"
+                    placeholder = "邮箱"
+                    prefix-icon="el-icon-user"
+                    autocomplete="off">
+          </el-input>
+        </el-form-item>
+        <el-form-item prop="password">
+          <el-input v-model="loginForm.password"
+                    type="text"
+                    placeholder = "密码"
+                    prefix-icon="el-icon-lock"
+                    show-password
+                    autocomplete="off">
+          </el-input>
+        </el-form-item>
         <el-form-item>
-          <el-button style="width: 80%" type="primary" @click="submitLogin">登入</el-button>
+          <el-button style="width: 80%" type="primary" :loading="loginLoading" @click="submitLogin('loginForm')">登录</el-button>
         </el-form-item>
       </el-form>
+
     </el-card>
     <el-card class="board" v-if="currentPage === 'register'">
       <div slot="header">
@@ -20,71 +39,210 @@
           已注册？前往登入
         </el-button>
       </div>
+      <el-form :model="registerForm" status-icon :rules="rules2" ref="registerForm" label-width="80px">
+        <el-form-item prop="email">
+          <el-input v-model="registerForm.email"
+                    type="text"
+                    placeholder = "邮箱"
+                    prefix-icon="el-icon-message"
+                    autocomplete="off">
+          </el-input>
+        </el-form-item>
+        <el-form-item prop="newUser">
+          <el-input v-model="registerForm.newUser"
+                    type="text"
+                    placeholder = "用户名"
+                    prefix-icon="el-icon-user"
+                    autocomplete="off">
+
+          </el-input>
+        </el-form-item>
+        <el-form-item prop="phoneNum">
+          <el-input v-model="registerForm.phoneNum"
+                    type="text"
+                    placeholder = "手机号"
+                    prefix-icon="el-icon-phone"
+                    autocomplete="off">
+
+          </el-input>
+        </el-form-item>
+        <el-form-item prop="newPW">
+          <el-input v-model="registerForm.newPW"
+                    type="text"
+                    placeholder = "密码"
+                    prefix-icon="el-icon-lock"
+                    show-password
+                    autocomplete="off">
+          </el-input>
+        </el-form-item>
+        <el-form-item prop="confirmPW">
+          <el-input v-model="registerForm.confirmPW"
+                    type="text"
+                    placeholder = "确认密码"
+                    prefix-icon="el-icon-lock"
+                    show-password
+                    autocomplete="off">
+          </el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button style="width: 80%" type="primary" :loading="registerLoading" @click="submitLogin('registerForm')">注册</el-button>
+        </el-form-item>
+      </el-form>
     </el-card>
   </div>
 </template>
 
 <script>
-import { mapMutations, mapActions } from 'vuex'
+  export default {
+    name: 'Login',
+    data() {
+      var validateUser1 = (rule, value, callback) => {
+        const regex = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/
+        if (regex.test(value)) {
+          callback()
+        } else {
+          callback(new Error('请输入有效用户名或邮箱'))
+        }
+        callback()
+      }
 
-export default {
-  name: 'Login',
-  data() {
-    return {
-      currentPage: 'login',
-      userParam: {
-        name: '',
-        password: ''
+      var validateEmail = (rule, value, callback) =>{
+        if(value === ''){
+          callback(new Error('请输入邮箱'));
+        }
+        else {
+          callback();
+        }
+      }
+
+      var validateUser2 = (rule, value, callback) =>{
+        const regex = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/
+        if (regex.test(value)) {
+          callback()
+        } else {
+          callback(new Error('请输入有效用户名'))
+        }
+        callback()
+      }
+
+      var validatePhoneNum = (rule, value, callback) =>{
+        const regex = /^[-+]?(([0-9]+)([.]([0-9]+))?|([.]([0-9]+))?)$/
+        if (regex.test(value) && value.length === 11) {
+          callback()
+        } else {
+          callback(new Error('请输入有效手机号'))
+        }
+        callback()
+      }
+
+      var validatePass = (rule, value, callback) =>{
+        if(value.length < 6){
+          callback(new Error('密码长度至少为6位'));
+        }
+        else{
+          if(this.registerForm.confirmPW !== ''){
+            this.$refs.registerForm.validateField('confirmPW');
+          }
+          callback();
+        }
+      }
+
+      var validatePass2 = (rule, value, callback) =>{
+        if(value === ''){
+          callback(new Error('请再次输入密码'));
+        }
+        else if(value !== this.registerForm.newPW){
+          callback(new Error('两次输入密码不一致！'));
+        }
+        else{
+          callback();
+        }
+      }
+
+      return {
+        currentPage: 'login',
+        loginLoading: false,
+        registerLoading: false,
+        loginForm: {
+          username1: '',
+          password: ''},
+        registerForm: {
+          email: '',
+          newUser: '',
+          phoneNum: '',
+          newPW: '',
+          confirmPW: '',
+        },
+        rules1: {
+          username1: [
+            {validator: validateUser1, trigger: 'blur'}
+          ],
+          password: [
+            {validator: validatePass, trigger: 'blur'}
+          ]
+        },
+        rules2: {
+          email: [
+            {validator: validateEmail, trigger: 'blur'}
+          ],
+          newUser: [
+            {validator: validateUser2, trigger: 'blur'}
+          ],
+          phoneNum: [
+            {validator: validatePhoneNum, trigger: 'blur'}
+          ],
+          newPW: [
+            {validator: validatePass, trigger: 'blur'}
+          ],
+          confirmPW: [
+            {validator: validatePass2, trigger: 'blur'}
+          ]
+        }
+      }
+
+    },
+    mounted() {
+      // console.log('mounted')
+      document.onkeypress = e => {
+        // console.log(e)
+        if(e.charCode === 13) {
+          this.submitLogin()
+        }
+      }
+    },
+    destroyed() {
+      // console.log('destroyed')
+      document.onkeypress = null
+    },
+    methods: {
+      goto(page) {
+        this.currentPage = page
       },
-    }
-  },
-  mounted() {
-    // console.log('mounted')
-    document.onkeypress = e => {
-      // console.log(e)
-      if(e.charCode === 13) {
-        this.submitLogin()
+      submitLogin(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid){
+            console.log(this.form)
+            this.$router.push('editor')
+          }
+          else{
+            console.log('fail');
+            return false;
+          }
+        });
       }
     }
-  },
-  destroyed() {
-    // console.log('destroyed')
-    document.onkeypress = null
-  },
-  methods: {
-    ...mapMutations([
-      'set_loginState',
-      'set_userInfo'
-    ]),
-    ...mapActions([
-
-    ]),
-    goto(page) {
-      this.currentPage = page
-    },
-    submitLogin() {
-      console.log(this.userParam)
-      this.set_loginState(true)
-      this.set_userInfo({
-        id: 0,
-        name: 'John',
-        password: '???'
-      })
-      this.$router.push({ name: 'overview' })
-    }
   }
-}
 </script>
 
 <style scoped>
-.board {
-  width: 40vw;
-  margin: 10vh auto 0;
-  text-align: left;
-}
+  .board {
+    width: 40vw;
+    margin: 10vh auto 0;
+    text-align: left;
+  }
 
-.title {
-  font-size: 20px;
-  margin-left: 10%;
-}
+  .title {
+    font-size: 20px;
+    margin-left: 10%;
+  }
 </style>
