@@ -7,47 +7,63 @@
         class="questions"
         ref="customerForm"
         :model="paper"
-        :rules="rules"
         label-position="top"
       >
-        <el-form-item
-          v-for="question in paper.questionList"
+        <div
+          v-for="(question, index) in paper.questionList"
           :key="question.id"
-          style="text-align: left;"
-          :prop="getProp(question.type)"
         >
-          <span slot="label" class="questionTitle">{{ question.title }}</span>
-          <el-input
-            v-if="question.type === 3"
-            style="width: 80%;"
-            type="textarea"
-            size="medium"
-            rows="4"
-            v-model="question.answer"
-            @change="change(question.answer)"
-          ></el-input>
-          <el-radio-group
-            v-else-if="question.type === 1"
-            v-model="question.answer"
-            @change="change(question.answer)"
+          <el-divider v-if="index !== 0"></el-divider>
+          <el-form-item
+            style="text-align: left;"
+            :prop="`questionList.${index}.answer`"
+            :rules="rules[question.type]"
           >
-            <el-radio
-              v-for="option in question.options"
-              :key="option.id"
-              :label="option.content">{{ option.content }}</el-radio>
-          </el-radio-group>
-          <el-checkbox-group
-            v-if="question.type === 2"
-            v-model="question.answer"
-            @change="change(question.answer)"
-          >
-            <el-checkbox
-              v-for="option in question.options"
-              :key="option.id"
-              :label="option.content"
-            >{{ option.content }}</el-checkbox>
-          </el-checkbox-group>
-        </el-form-item>
+            <span slot="label" class="questionTitle">{{ question.title }}</span>
+            <el-input
+              v-if="question.type === 3"
+              style="width: 80%;"
+              type="textarea"
+              size="medium"
+              rows="4"
+              v-model="question.answer"
+              @change="change(question.answer)"
+            ></el-input>
+            <el-radio-group
+              v-else-if="question.type === 1"
+              v-model="question.answer"
+              @change="change(question.answer)"
+            >
+              <div
+                v-for="option in question.options"
+                :key="option.id"
+                style="margin-bottom: 10px"
+              >
+                <el-radio
+                  :label="option.content"
+                  border
+                >{{ option.content }}</el-radio>
+              </div>
+            </el-radio-group>
+            <el-checkbox-group
+              v-if="question.type === 2"
+              v-model="question.answer"
+              @change="change(question.answer)"
+            >
+              <div
+                v-for="option in question.options"
+                :key="option.id"
+                style="margin-bottom: 10px"
+              >
+                <el-checkbox
+                  :label="option.content"
+                  border
+                >{{ option.content }}</el-checkbox>
+              </div>
+            </el-checkbox-group>
+          </el-form-item>
+        </div>
+        
         <el-form-item>
           <el-button type="primary" size="large" @click="submitAnswer()">完成填写！</el-button>
         </el-form-item>
@@ -65,24 +81,13 @@ export default {
   data() {
     return {
       rules: {
-        single: [
-          { 
-            validator: (rule, value, callback) => {
-              console.log(rule)
-              console.log(value)
-              console.log(callback)
-              if(value.length <= 0) {
-                callback(new Error(''))
-              }
-            },
-            trigger: 'change',
-            required: true
-          }
+        1: [
+          {  required: true, trigger: 'change', message: '必须选择一个' }
         ],
-        multiple: [
+        2: [
           { type: 'array', required: true, trigger: 'change', message: '多选至少选一个' }
         ],
-        text: [
+        3: [
           { required: true, trigger: 'blur', message: '输入不可为空' }
         ]
       },
@@ -134,8 +139,23 @@ export default {
                 questionId: 2,
                 content: '多选选项三'
               },
+              {
+                id: 7,
+                questionId: 2,
+                content: '多选选项4'
+              },
+              {
+                id: 8,
+                questionId: 2,
+                content: '多选选项5'
+              },
+              {
+                id: 9,
+                questionId: 2,
+                content: '多选选项6'
+              },
             ],
-            answer: ''
+            answer: []
           },
           {
             id: 3,
@@ -153,38 +173,17 @@ export default {
   },
   mounted() {
     this.paperId = this.$route.params.paperId
-    for(let question of this.paper.questionList) {
-      if(question.type === 2) {
-        question.answer = []
-      } else {
-        question.answer = ''
-      }
-    }
+    // for(let question of this.paper.questionList) {
+    //   if(question.type === 2) {
+    //     question.answer = []
+    //   } else {
+    //     question.answer = ''
+    //   }
+    // }
     console.log(this.paper.questionList)
   },
   methods: {
-    getProp(type) {
-      if(type === 1) {
-        return 'sinlge'
-      }
-      if(type === 2) {
-        return 'double'
-      }
-      if(type === 3) {
-        return 'text'
-      }
-      return 'none'
-    },
-    submitAnswer() {
-      this.$refs.customerForm.validate((valid) => {
-        if(valid) {
-          console.log('valid')
-          console.log(valid)
-        } else {
-          console.log('Invalid')
-          console.log(valid)
-        }
-      })
+    buildAnswers() {
       const answers = []
       for(let question of this.paper.questionList) {
         answers.push({
@@ -192,7 +191,21 @@ export default {
           content: question.answer
         })
       }
-      console.log(answers)
+      return answers
+    },
+    submitAnswer() {
+      this.$refs.customerForm.validate((valid) => {
+        if(valid) {
+          console.log('valid')
+          const answers = this.buildAnswers()
+          console.log(answers)
+          this.$message.success('提交成功')
+          
+        } else {
+          console.log('Invalid')
+          this.$message.error('问卷不可有空栏')
+        }
+      })
     },
     change(model) {
       console.log(model)
