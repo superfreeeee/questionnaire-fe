@@ -11,7 +11,7 @@
     </el-row>
     <div class="papers" style="display: flex">
       <div
-              style="width: 200px; height: 200px; border: 1px black solid;"
+              style="width: 200px; height: 200px; border: 1px black solid; cursor: pointer"
               v-for="(paper, index) in papers"
               :key="index"
               @click="checkPaperDetail(paper.paperId)"
