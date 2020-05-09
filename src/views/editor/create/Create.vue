@@ -83,6 +83,16 @@
           </el-dropdown-menu>
         </el-dropdown>
     </div>
+    <div style="padding-bottom: 20px" v-else>
+       <el-dropdown @command="addQues">
+          <el-button type="primary">新增問題<i class="el-icon-arrow-down el-icon--right"></i></el-button>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item command=1>單選</el-dropdown-item>
+            <el-dropdown-item command=2 divided>多選</el-dropdown-item>
+            <el-dropdown-item command=3 divided>簡答</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+    </div>
   </div>
 </template>
 
