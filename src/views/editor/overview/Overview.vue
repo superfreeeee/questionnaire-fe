@@ -17,9 +17,7 @@
         <el-card class="paper_card">
           <div slot = "header" class = "clearfix">
             <span style = "fmargin-left: 2px">ID: {{ paper.paperId }}</span>
-            <el-button style="float: right; padding: 3px 0" 
-              type="text" 
-              @click="checkPaperDetail(paper.paperId)">查看问卷</el-button>
+            <label style="float: right">填写总数：</label>
           </div>
           <el-button type="text" style="float: left" @click="checkPaperDetail(paper.paperId)" icon="el-icon-edit">查看问卷</el-button>
           <el-button type="text" style="float: left" @click="handleShare()" icon="el-icon-share">发放链接</el-button>
