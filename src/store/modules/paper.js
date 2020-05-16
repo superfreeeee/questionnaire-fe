@@ -1,5 +1,5 @@
 import {
-  
+  addQuestionsAPI
 } from '@/api'
 
 const paper = {

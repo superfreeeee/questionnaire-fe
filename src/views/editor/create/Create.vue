@@ -97,7 +97,7 @@
 </template>
 
 <script>
-
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 export default {
   name: 'Create',
   data() {
@@ -138,13 +138,22 @@ export default {
     }
   },
   computed: {
+    ...mapGetters([
+      'questionList'
+    ]),
     Listempty: function() {
       return this.questionList.length !== 0
     }
   },
   methods: {
+    ...mapMutations([
+      'add_question'
+    ]),
+    ...mapActions([
+      'createQuestion',
+      'updateQuestion'
+    ]),
     addQues(type) {
-      console.log(type)
       if(type == 1) {
         const ques = {
           type: 1, // 單擇
