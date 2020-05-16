@@ -43,10 +43,23 @@ const paper = {
       paperId
     },
     // 创建相关
-    createPaper: async({ commit }, paper/* Paper */) => {
+    createNewPaper: async({ state, commit, getters }, paper/* Paper */) => {
       // const res = await addPaperAPI(paper)
       const paperId = '12345'
-      // other operation
+      const paperInfo = {
+        id: paperId,
+        userId: getters.userInfo.id,
+        title: '',
+        description: '',
+        start_time: null,
+        end_time: null,
+        status: 0,
+        written: 0,
+        visited: 0,
+        ...paper
+      }
+      // console.log(paperInfo)
+      commit('set_paperInfo', paperInfo)
     },
     // createQuestion: async({ commit }, question/* Question */) => {
     //   commit

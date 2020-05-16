@@ -6,7 +6,11 @@ import {
 const user = {
   state: {
     loginState: false,
-    userInfo: {}  /* UserInfo */
+    userInfo: {
+      id: '666',
+      name: 'superfree',
+      password: '123456789'
+    }  /* UserInfo */
   },
   mutations: {
     set_loginState(state) {
