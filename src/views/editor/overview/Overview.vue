@@ -17,11 +17,9 @@
         <el-card class="paper_card">
           <div slot = "header" class = "clearfix">
             <span style = "fmargin-left: 2px">ID: {{ paper.paperId }}</span>
-            <el-button style="float: right; padding: 3px 0" 
-              type="text" 
-              @click="checkPaperDetail(paper.paperId)">查看问卷</el-button>
+            <label style="float: right">填写总数：</label>
           </div>
-          <el-button type="text" style="float: left" @click="checkPaperDetail(paper.paperId)" icon="el-icon-edit">编辑问卷</el-button>
+          <el-button type="text" style="float: left" @click="checkPaperDetail(paper.paperId)" icon="el-icon-edit">查看问卷</el-button>
           <el-button type="text" style="float: left" @click="handleShare()" icon="el-icon-share">发放链接</el-button>
           <el-button type="text" style="float: left" @click="dialogVisible = true" icon="el-icon-delete">删除问卷</el-button>
           <el-dialog
@@ -31,7 +29,7 @@
             <span>确认删除该问卷</span>
             <span slot="footer" class="dialog-footer">
               <el-button @click="dialogVisible = false">取 消</el-button>
-              <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+              <el-button type="danger" @click="dialogVisible = false">确 定</el-button>
             </span>
           </el-dialog>
         </el-card>
