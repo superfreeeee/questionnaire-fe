@@ -60,6 +60,7 @@ const paper = {
       }
       // console.log(paperInfo)
       commit('set_paperInfo', paperInfo)
+      commit('set_questionList', [])
     },
     // createQuestion: async({ commit }, question/* Question */) => {
     //   commit
