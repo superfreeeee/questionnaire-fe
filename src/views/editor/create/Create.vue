@@ -97,6 +97,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 
 export default {
   name: 'Create',
@@ -143,39 +144,43 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+      'createQuestion'
+    ]),
     addQues(type) {
-      console.log(type)
-      if(type == 1) {
-        const ques = {
-          type: 1, // 單擇
-          text: '',
-          options: [
-            {
-              content: ''
-            }
-          ]
-        }
-        this.questionList.push(ques)
-      }else if(type == 2){
-          const ques = {
-            type: 2,
-            text: '',
-            options: [
-              {
-                content: ''
-              }
-            ]
-          }
-          this.questionList.push(ques)
-        }else {
-          const ques = {
-            type: 3,
-            text: '',
-            answer: ''
-          }
-          this.questionList.push(ques)
-        }
-      },
+      this.createQuestion(type)
+      // console.log(type)
+      // if(type == 1) {
+      //   const ques = {
+      //     type: 1, // 單擇
+      //     text: '',
+      //     options: [
+      //       {
+      //         content: ''
+      //       }
+      //     ]
+      //   }
+      //   this.questionList.push(ques)
+      // }else if(type == 2){
+      //   const ques = {
+      //     type: 2,
+      //     text: '',
+      //     options: [
+      //       {
+      //         content: ''
+      //       }
+      //     ]
+      //   }
+      //   this.questionList.push(ques)
+      // }else {
+      //   const ques = {
+      //     type: 3,
+      //     text: '',
+      //     answer: ''
+      //   }
+      //   this.questionList.push(ques)
+      // }
+    },
     delQues(index) {
       this.questionList.splice(index, 1)
     },
