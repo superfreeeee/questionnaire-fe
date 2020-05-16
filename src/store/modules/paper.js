@@ -1,27 +1,32 @@
 import {
   addQuestionsAPI
 } from '@/api'
+import { addPaperAPI } from '../../api/paper/paper'
+import { addQuestionsAPI } from '../../api/paper/question'
 
 const paper = {
   state: {
     paperList: [],  /* Paper[] */
-    questionList: [  /* Question[] */
+    currentPaper: {
+      paperInfo: {}, /* Paper */
+      questionList: [  /* Question[] */
       
-    ],
-    createPaperVisible: false
+      ],
+    },
+    createPaperVisible: false // show createPaper Component
   },
   mutations: {
     set_paperList(state, paperList) {
       state.paperList = paperList
     },
-    set_questionList(state, questionList) {
-      state.questionList = questionList
+    set_paperInfo(state, paperInfo) {
+      state.currentPaper.paperInfo = paperInfo
     },
-    add_paper(state, paper) {
-      state.paper.push(paper)
+    set_questionList(state, questionList) {
+      state.currentPaper.questionList = questionList
     },
     add_question(state, question) {
-      state.questionList.push(question)
+      state.currentPaper.questionList.push(question)
     },
     set_createPaperVisible(state, bool) {
       state.createPaperVisible = bool
@@ -39,12 +44,29 @@ const paper = {
     },
     // 创建相关
     createPaper: async({ commit }, paper/* Paper */) => {
-      commit
-      paper
+      // const res = await addPaperAPI(paper)
+      const paperId = '12345'
+      // other operation
     },
-    createQuestion: async({ commit }, question/* Question */) => {
-      commit
-      question
+    // createQuestion: async({ commit }, question/* Question */) => {
+    //   commit
+    //   question
+    // },
+    createQuestion: async({ commit }, type) => {
+      // const res = await addQuestionsAPI()
+      const questionId = 1
+      const newQues = {
+        type,
+        text: ''
+      }
+      if(type <= 2) { // 是單選或多選才有選項
+        newQues.options = [
+          {
+            content: ''
+          }
+        ]
+      }
+      commit('add_question', newQues)
     },
     updateQuestion: async() => {
       
