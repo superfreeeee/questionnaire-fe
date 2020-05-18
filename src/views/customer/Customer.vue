@@ -139,7 +139,7 @@ export default {
 <style>
 .bg {
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   background: #efefef;
 }
 
@@ -147,8 +147,8 @@ export default {
   box-sizing: border-box;
   padding-top: 40px;
   background: white;
-  width: 50%;
-  height: 100vh;
+  width: 65%;
+  min-height: 100vh;
   margin: 0 auto;
   overflow: scroll;
 }

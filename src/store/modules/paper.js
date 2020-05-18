@@ -1,6 +1,3 @@
-import {
-  
-} from '@/api'
 import { addPaperAPI } from '../../api/paper/paper'
 import { addQuestionsAPI } from '../../api/paper/question'
 

@@ -20,22 +20,6 @@ export default {
 </script>
 
 <style>
-.bg {
-  width: 100vw;
-  height: 100vh;
-  background: #efefef;
-}
-
-.customer {
-  box-sizing: border-box;
-  padding-top: 40px;
-  background: white;
-  width: 50%;
-  height: 100vh;
-  margin: 0 auto;
-  overflow: scroll;
-}
-
 .customer > .title {
   text-align: center;
   font-size: 40px;

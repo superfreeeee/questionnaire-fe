@@ -1,11 +1,12 @@
 const getters = {
-  // 填写用户
+  // Customer 相关 填写用户
   customerPaper: state => state.customer.paper,
-  // 用户相关
+  // User (Login / Register) 相关
   loginState: state => state.user.loginState,
   userInfo: state => state.user.userInfo,
-  // 问卷相关
+  // Create 相关
   createPaperVisible: state => state.paper.createPaperVisible
+  // Monitor 相关
 }
 
 export default getters
