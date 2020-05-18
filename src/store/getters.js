@@ -5,7 +5,8 @@ const getters = {
   loginState: state => state.user.loginState,
   userInfo: state => state.user.userInfo,
   // Create 相关
-  createPaperVisible: state => state.paper.createPaperVisible
+  createPaperVisible: state => state.paper.createPaperVisible,
+  currentPaper: state => state.paper.currentPaper
   // Monitor 相关
 }
 

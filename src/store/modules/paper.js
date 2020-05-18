@@ -1,5 +1,6 @@
 import { addPaperAPI } from '../../api/paper/paper'
 import { addQuestionsAPI } from '../../api/paper/question'
+import { updateQuestionAPI } from '../../api/paper/question'
 
 const paper = {
   state: {
@@ -7,7 +8,34 @@ const paper = {
     currentPaper: {
       paperInfo: {}, /* Paper */
       questionList: [  /* Question[] */
-      
+        {
+          type: 1, // 單擇
+          text: '',
+          options: [
+            {
+              content: ''
+            }
+          ]
+        },
+        {
+          type: 3, // 文字
+          text: '',
+          answer: ''
+        },   
+        {
+          type: 2, // 多選
+          text: '',
+          options: [
+            {
+              content: ''
+            }
+          ]
+        },
+        {
+          type: 3,
+          text: '',
+          answer: ''
+        }
       ],
     },
     createPaperVisible: false // show createPaper Component
@@ -36,8 +64,7 @@ const paper = {
       userId
     },
     getAllQuestions: async({ commit }, paperId) => {
-      commit
-      paperId
+
     },
     // 创建相关
     createNewPaper: async({ state, commit, getters }, paper/* Paper */) => {
@@ -52,8 +79,6 @@ const paper = {
         start_time: null,
         end_time: null,
         status: 0,
-        written: 0,
-        visited: 0,
         ...paper
       }
       // console.log(paperInfo)
@@ -66,6 +91,7 @@ const paper = {
     // },
     createQuestion: async({ commit }, type) => {
       // const res = await addQuestionsAPI()
+      console.log(type)
       const questionId = 1
       const newQues = {
         questionId,
@@ -81,8 +107,18 @@ const paper = {
       }
       commit('add_question', newQues)
     },
-    updateQuestion: async({ commit }, type) => {
-      
+    updateQuestion: async({ commit }, ques) => {
+      // const res = await updateQuestionAPI(ques)
+      console.log(ques)
+      const res = {
+        data: {
+          success: true,
+          message: '',
+          content: ''
+        }
+      }
+      const success = res.data.success
+      return success
     }
   }
 }

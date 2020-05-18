@@ -1,14 +1,14 @@
 <template>
   <div class='create'>
     <div class="header">
-      <span class="name">【 {{ name }} 】</span>
+      <span class="name">【 {{ paperInfo.title }} 】</span>
     </div>
     <el-divider />
     <el-input
         type = "textarea"
         :autosize="{ minRows: 2, maxRows: 4}"
         placeholder="请输入問卷說明"
-        v-model="description"
+        v-model="paperInfo.description"
         style="width: 800px; padding-right: 100px"
         >
     </el-input>
@@ -18,7 +18,7 @@
         style="text-align: left"
         ref="questionList"
         label-width="100px"
-        v-for="(ques, index) in questionList"
+        v-for="(ques, index) in currentPaper.questionList"
         :key= 'index'
       >
         <el-input 
@@ -62,8 +62,10 @@
         placeholder="回答"
         style="width: 500px; margin:10px 0; padding-right: 400px;">
         </el-input>
-        <div style="padding-left: 600px; margin-top: 30px">
-          <el-button @click="delQues(index)" type="danger">刪除問題</el-button>
+        <div style="display: flex; justify-content: flex-end;">
+          <el-button @click="delQues(index)" type="danger">刪除</el-button>
+          <el-button @click="updQues(index)" type="success">保存</el-button>
+          <div style="flex: 0 1 20%"></div>
         </div>
         <el-divider />
       </el-form-item>
@@ -97,53 +99,27 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 
 export default {
   name: 'Create',
   data() {
     return {
-      paperId: 12345,
-      name: '問卷一',
-      description: '',
-      questionList: [
-        {
-          type: 1, // 單擇
-          text: '',
-          options: [
-            {
-              content: ''
-            }
-          ]
-        },
-        {
-          type: 3, // 文字
-          text: '',
-          answer: ''
-        },   
-        {
-          type: 2, // 多選
-          text: '',
-          options: [
-            {
-              content: ''
-            }
-          ]
-        },
-        {
-          type: 3,
-          text: '',
-          answer: ''
-        }
-      ],
+      paperInfo: {}
     }
   },
+  mounted() {
+    console.log(this.currentPaper)
+    this.paperInfo = this.currentPaper.paperInfo
+    // this.title = this.currentPaper.paperInfo.title
+    // this.description = this.currentPaper.paperInfo.description
+  },
   computed: {
-    /*...mapGetters([
+    ...mapGetters([
       'currentPaper'
-    ]),*/
-    Listempty: function() {
-      return this.questionList.length !== 0
+    ]),
+    Listempty() {
+      return this.currentPaper.questionList.length !== 0
     }
   },
   methods: {
@@ -152,19 +128,29 @@ export default {
       'updateQuestion'
     ]),
     addQues(type) {
-      this.createQuestion(type)
+      this.createQuestion(Number(type))
     },
     delQues(index) {
-      this.questionList.splice(index, 1)
+      this.currentPaper.questionList.splice(index, 1)
+    },
+    updQues(index) {
+      console.log('upd')
+      const ques = this.currentPaper.questionList[index]
+      const success = this.updateQuestion(ques)
+      if(success) {
+        this.$message.success('保存成功')
+      }else{
+        this.$message.error('保存失敗')
+      }
     },
     addOption(question) {
       question.options.push({ content: '' })
     },
-    submitpaper(paperId) {
+    submitpaper() {
       console.log('submitPaper')
-      console.log(paperId)
-      this.$router.push({ name: 'paperlink', params: { paperId }})
-    }
+      console.log(this.currentPaper.paperInfo.id)
+      this.$router.push({ name: 'paperlink', params: { paperId: this.currentPaper.paperInfo.id }})
+    },
   }
 }
 </script>
