@@ -1,7 +1,7 @@
 import {
-  // loginAPI,
+  loginAPI,
   registerAPI
-} from '@/api'
+} from '../../api/user/user'
 
 const user = {
   state: {
@@ -10,7 +10,7 @@ const user = {
       id: '666',
       name: 'superfree',
       password: '123456789'
-    }  /* UserInfo */
+    } /* UserInfo */
   },
   mutations: {
     set_loginState(state) {
@@ -21,11 +21,18 @@ const user = {
     }
   },
   actions: {
-    login: async({ commit }, loginParam/* UserParam */) => {
+    login: async ({ commit }, loginParam /* UserParam */) => {
+      const userInfo = {
+        name: loginParam.username1,
+        password: loginParam.password
+      }
       // const res = await loginAPI(loginParam)
-      // const userInfo = res.content
-      const userInfo = {...loginParam}
-      if(userInfo) {
+      const res = {
+        data: {
+          success: true
+        }
+      }
+      if (res.data.success) {
         commit('set_userInfo', userInfo)
         commit('set_loginState', true)
         return true
@@ -33,17 +40,22 @@ const user = {
         return false
       }
     },
-    register: async(_, registerParam/* UserParam */) => {
-      const res = await registerAPI(registerParam)
-      if(res) {
-        this.$notify.success({
-          title: '注册成功'
-        })
-      } else {
-        this.$notify.error({
-          title: '注册失败'
-        })
+    register: async (_, registerParam /* UserParam */) => {
+      const registerForm = {
+        name: registerParam.newUser,
+        password: registerParam.newPW
       }
+      // const res = await registerAPI(registerForm)
+      const res = {
+        data: {
+          success: true
+        }
+      }
+      return res.data.success
+    },
+    logout: ({ commit }) => {
+      commit('set_userInfo', {})
+      commit('set_loginState', false)
     }
   }
 }
