@@ -45,6 +45,7 @@ const paper = {
     // 创建相关
     createNewPaper: async({ state, commit, getters }, paper/* Paper */) => {
       // const res = await addPaperAPI(paper)
+      // const paperId = res.data.cotent
       const paperId = '12345'
       const paperInfo = {
         id: paperId,
