@@ -1,8 +1,8 @@
 import {
-  addQuestionsAPI
+  //addQuestionsAPI
 } from '@/api'
-import { addPaperAPI } from '../../api/paper/paper'
-import { addQuestionsAPI } from '../../api/paper/question'
+//import { addPaperAPI } from '../../api/paper/paper'
+//import { addQuestionsAPI } from '../../api/paper/question'
 
 const paper = {
   state: {
@@ -70,6 +70,7 @@ const paper = {
       // const res = await addQuestionsAPI()
       const questionId = 1
       const newQues = {
+        questionId,
         type,
         text: ''
       }
@@ -82,7 +83,7 @@ const paper = {
       }
       commit('add_question', newQues)
     },
-    updateQuestion: async() => {
+    updateQuestion: async({ commit }, type) => {
       
     }
   }
