@@ -74,7 +74,7 @@
 
     </div>-->
     <div style="padding-bottom: 20px" v-if="Listempty">
-        <el-button type="success" @click="submitpaper(paperId)">發放問卷  !</el-button>
+        <el-button type="success" @click="submitpaper()">發放問卷  !</el-button>
         <el-divider direction = "vertical" />
         <el-dropdown @command="addQues">
           <el-button type="primary">新增問題<i class="el-icon-arrow-down el-icon--right"></i></el-button>
