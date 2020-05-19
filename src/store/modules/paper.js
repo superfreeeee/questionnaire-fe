@@ -112,7 +112,7 @@ const paper = {
       console.log(ques)
       const res = {
         data: {
-          success: true,
+          success: false,
           message: '',
           content: ''
         }

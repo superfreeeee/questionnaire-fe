@@ -134,14 +134,21 @@ export default {
       this.currentPaper.questionList.splice(index, 1)
     },
     updQues(index) {
-      console.log('upd')
       const ques = this.currentPaper.questionList[index]
       const success = this.updateQuestion(ques)
-      if(success) {
+      success.then(res => {
+        console.log(res)
+        if(res){
+          this.$message.success('保存成功')
+        }else{
+          this.$message.error('保存失敗')
+        }
+      })
+      /*if(success) {
         this.$message.success('保存成功')
       }else{
         this.$message.error('保存失敗')
-      }
+      }*/
     },
     addOption(question) {
       question.options.push({ content: '' })
