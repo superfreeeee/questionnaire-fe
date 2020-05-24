@@ -5,10 +5,14 @@ import {
 const paper = {
   state: {
     paper: {}, /* Paper */
+    paperStatistic: {}
   },
   mutations: {
     set_paper(state, paper) {
       state.paper = paper
+    },
+    set_paperStatistic(state,paperStatistic){
+      state.paperStatistic = paperStatistic
     }
   },
   actions: {
@@ -94,6 +98,89 @@ const paper = {
       // console.log('get paper in actions')
       // console.log(paper)
       commit('set_paper', paper)
+    },
+    getFullPaperStatistic:({commit},paperId) =>{
+      console.log(`get paperStatistic ${paperId}`)
+      const paperStatistic = {
+        title: '问卷标题question',
+        description: '问卷一',
+        questionStatisticList: [
+          {
+            id: 1,
+            type: 1,
+            title: '单选题一',
+            options: [
+              {
+                id: 1,
+                questionId: 1,
+                content: '单选选项一',
+                selectNum: 5
+              },
+              {
+                id: 2,
+                questionId: 1,
+                content: '单选选项二',
+                selectNum: 8
+              },
+              {
+                id: 3,
+                questionId: 1,
+                content: '单选选项三',
+                selectNum: 10
+              },
+            ],
+          },
+          {
+            id: 2,
+            type: 2,
+            title: '多选题一',
+            options: [
+              {
+                id: 4,
+                questionId: 2,
+                content: '多选选项一',
+                selectNum: 10
+              },
+              {
+                id: 5,
+                questionId: 2,
+                content: '多选选项二',
+                selectNum: 8
+              },
+              {
+                id: 6,
+                questionId: 2,
+                content: '多选选项三',
+                selectNum: 19
+              },
+              {
+                id: 7,
+                questionId: 2,
+                content: '多选选项4',
+                selectNum: 12
+              },
+              {
+                id: 8,
+                questionId: 2,
+                content: '多选选项5',
+                selectNum: 20
+              },
+              {
+                id: 9,
+                questionId: 2,
+                content: '多选选项6',
+                selectNum: 5
+              },
+            ],
+          },
+          {
+            id: 3,
+            type: 3,
+            title: '简答',
+          },
+        ],
+      }
+      commit('set_paperStatistic',paperStatistic)
     },
     submitAnswers: (_, answers) => {
       console.log('submit answers in store')

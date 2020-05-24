@@ -6,8 +6,11 @@ const getters = {
   userInfo: state => state.user.userInfo,
   // Create 相关
   createPaperVisible: state => state.paper.createPaperVisible,
-  currentPaper: state => state.paper.currentPaper
+  currentPaper: state => state.paper.currentPaper,
   // Monitor 相关
+  monitorPaper: state => state.customer.paperStatistic,
+  //Overview 相关
+  allPapers: state => state.paper.paperList
 }
 
 export default getters

@@ -2,60 +2,72 @@
   <div class='monitor'>
     <el-container>
       <el-header height='30px'>
-        <span class="title" style="float: left; font-size: 30px; font-weight: 700">统计&分析 -- paperId:{{paperId}}</span>
+        <div class="title" style="float: left; font-size: 30px; font-weight: 700">统计&分析 -- paperId:{{paperId}}</div>
         
       </el-header>
       <el-divider></el-divider>
       <el-main>
-        <span class="title" style="font-size: 20px; font-weight: 700">第1题 -- 题目描述</span>
-        <el-table :data="table" border stripe  style="width:80%">
-          <el-table-column 
-            prop="option"
-            label="选项"
-            width="350"></el-table-column>
-          <el-table-column 
-            prop="count"
-            label="小计"
-            width="100"></el-table-column>
-          <el-table-column 
-            prop="percent"
-            label="比例">
-            <el-progress :percentage="percent"></el-progress>
-          </el-table-column>
-        </el-table>
+        <div class='analyzeTables' :model="monitorPaper">
+          <div 
+          v-for="(question) in monitorPaper.questionStatisticList"
+          :key="question.id"
+          >
+            
+            <h1 class="qusetionTitle" style="font-size: 20px; font-weight: 700">第{{question.id}}题--{{question.title}}</h1>
+            <el-table v-if="question.type === 1 || question.type == 2" :data="question.options" border stripe  style="width:100%; margin-bottom: 30px">
+              <el-table-column :prop="question.options.id" label="选项" sortable ></el-table-column>
+              <el-table-column :prop="question.options.content" label="选项描述" sortable ></el-table-column>
+              <el-table-column :prop="question.options.selectNum" label="选择人数" sortable ></el-table-column>
+              <el-table-column label="比例"></el-table-column>
+            </el-table>
+          </div>
+        </div>
       </el-main>
     </el-container>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'Monitor',
-  data() {
-    return {
+  import {mapGetters, mapMutations, mapActions} from 'vuex'
+
+  export default {
+    name: 'Monitor',
+    data() {
+      return {
       
-      table:[{
-        option:"选项一",
-        count: 0,
-        percent:50,
-      },
-      {
-        option:"选项二",
-        count: 0,
-        percent:20,
+        table:[{
+          option:"选项一",
+          count: 0,
+          percent:50,
+        },
+        {
+          option:"选项二",
+          count: 0,
+          percent:20,
+        }
+        ],
+        paperId: -1
       }
-      ],
-      paperId: -1
+    },
+    mounted() {
+      this.paperId = this.$route.params.paperId
+      this.getFullPaperStatistic(this.paperId)
+    },
+    computed:{
+      ...mapGetters([
+        'monitorPaper'
+      ])
+    },
+    methods: {
+      ...mapActions([
+        'getFullPaperStatistic'
+      ])
     }
-  },
-  mounted() {
-    this.paperId = this.$route.params.paperId
   }
-}
 </script>
 
 <style>
-.title {
-  margin: 5px;
+.questionTitle {
+  margin-left: 5px;
 }
 </style>

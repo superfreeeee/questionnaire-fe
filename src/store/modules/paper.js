@@ -60,8 +60,46 @@ const paper = {
   actions: {
     // 浏览相关
     getAllPapers: async({ commit }, userId) => {
-      commit
-      userId
+      console.log(`get paperList ${userId}`)
+      const paperList = [
+        {
+          paperInfo : {
+            id: '123',
+            userId: userId,
+            title:'问卷一',
+            description: '',
+            start_time: '5月12日',
+            end_time: null,
+            status: 0
+          },
+          questionList : []
+        },
+        {
+          paperInfo : {
+            id: '128',
+            userId: userId,
+            title:'问卷二',
+            description: '',
+            start_time: '5月18日',
+            end_time: null,
+            status: 0
+          },
+          questionList : []
+        },
+        {
+          paperInfo : {
+            id: '1289',
+            userId: userId,
+            title:'问卷三',
+            description: '',
+            start_time: '5月29日',
+            end_time: null,
+            status: 0
+          },
+          questionList : []
+        }
+      ]
+      commit('set_paperList',paperList)
     },
     getAllQuestions: async({ commit }, paperId) => {
 
