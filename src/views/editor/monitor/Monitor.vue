@@ -22,8 +22,8 @@
                 </template>
               </el-table-column>
               <el-table-column prop="selectNum" label="选择人数" sortable ></el-table-column>
-              <el-table-column label="比例">
-                <el-progress :percentage="selectNum / monitorPaper.totalNum"></el-progress>
+              <el-table-column prop="percent" label="比例">
+              
               </el-table-column>
             </el-table>
 
@@ -41,19 +41,8 @@
     name: 'Monitor',
     data() {
       return {
-
-        table:[{
-          option:"选项一",
-          count: 0,
-          percent:50,
-        },
-        {
-          option:"选项二",
-          count: 0,
-          percent:20,
-        }
-        ],
-        paperId: -1
+        paperId: -1,
+        totalNum: 0
       }
     },
     mounted() {

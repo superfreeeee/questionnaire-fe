@@ -104,7 +104,6 @@ const paper = {
       const paperStatistic = {
         title: '问卷标题question',
         description: '问卷一',
-        totalNum: 23,
         questionStatisticList: [
           {
             id: 1,
@@ -115,19 +114,22 @@ const paper = {
                 id: 1,
                 questionId: 1,
                 content: '单选选项一',
-                selectNum: 5
+                selectNum: 5,
+                percent: '22%'
               },
               {
                 id: 2,
                 questionId: 1,
                 content: '单选选项二',
-                selectNum: 8
+                selectNum: 8,
+                percent: '35%'
               },
               {
                 id: 3,
                 questionId: 1,
                 content: '单选选项三',
-                selectNum: 10
+                selectNum: 10,
+                percent: '43%'
               },
             ],
           },
@@ -140,37 +142,43 @@ const paper = {
                 id: 4,
                 questionId: 2,
                 content: '多选选项一',
-                selectNum: 10
+                selectNum: 10,
+                percent: '43%'
               },
               {
                 id: 5,
                 questionId: 2,
                 content: '多选选项二',
-                selectNum: 8
+                selectNum: 8,
+                percent: '38%'
               },
               {
                 id: 6,
                 questionId: 2,
                 content: '多选选项三',
-                selectNum: 19
+                selectNum: 19,
+                percent: '83%'
               },
               {
                 id: 7,
                 questionId: 2,
                 content: '多选选项4',
-                selectNum: 12
+                selectNum: 12,
+                percent: '52%'
               },
               {
                 id: 8,
                 questionId: 2,
                 content: '多选选项5',
-                selectNum: 20
+                selectNum: 20,
+                percent: '87%'
               },
               {
                 id: 9,
                 questionId: 2,
                 content: '多选选项6',
-                selectNum: 5
+                selectNum: 5,
+                percent: '22%'
               },
             ],
           },
