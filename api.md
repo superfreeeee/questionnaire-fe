@@ -197,6 +197,7 @@ interface PaperStatistic {
   start_time: Date // 开始发放时间
   end_time: Date // 结束发放时间
   status: boolean // 状态：1 编辑中、2 已发放、3 停止回收，初始化为 1
+  totalNum: number //问卷总填写量
   questionList: QuestionStatistic[]
 }
 ```

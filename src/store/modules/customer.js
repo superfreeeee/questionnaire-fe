@@ -104,6 +104,7 @@ const paper = {
       const paperStatistic = {
         title: '问卷标题question',
         description: '问卷一',
+        totalNum: 23,
         questionStatisticList: [
           {
             id: 1,
