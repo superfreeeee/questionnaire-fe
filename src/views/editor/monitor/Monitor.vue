@@ -23,8 +23,13 @@
               </el-table-column>
               <el-table-column prop="selectNum" label="选择人数" sortable ></el-table-column>
               <el-table-column prop="percent" label="比例">
-              
               </el-table-column>
+            </el-table>
+
+            <el-table v-if="question.type === 3" :data="question.options" border stripe style="width: 100%;margin-bottom: 30px">
+              <el-table-column label="序号" prop="id" width="100"></el-table-column>
+              <el-table-column label="答案文本" prop="content"></el-table-column>
+
             </el-table>
 
           </div>
@@ -65,5 +70,6 @@
 <style>
 .questionTitle {
   margin-left: 5px;
+  display: inline-block;
 }
 </style>

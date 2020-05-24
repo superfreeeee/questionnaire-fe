@@ -186,6 +186,19 @@ const paper = {
             id: 3,
             type: 3,
             title: '简答',
+            options:[{
+              id:1,
+              content:"今天天气不错"
+            },
+            {
+              id:2,
+              content:"今天天气真好"
+            },
+            {
+              id:3,
+              content:"啊哈哈哈哈哈"
+            }
+            ]
           },
         ],
       }
