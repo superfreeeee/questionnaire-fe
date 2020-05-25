@@ -1,6 +1,4 @@
-import {
-  
-} from '@/api'
+
 
 const paper = {
   state: {

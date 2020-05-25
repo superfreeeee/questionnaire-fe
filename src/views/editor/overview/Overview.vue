@@ -52,12 +52,13 @@
       }
     },
     mounted() {
-      this.userId=this.$route.userId,
-      this.getAllPapers(this.userId)
+      const userId = this.userInfo.id
+      this.getAllPapers(userId)
     },
     computed:{
       ...mapGetters([
-        'allPapers'
+        'allPapers',
+        'userInfo'
       ])
     },
     methods: {

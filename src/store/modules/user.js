@@ -6,11 +6,7 @@ import {
 const user = {
   state: {
     loginState: false,
-    userInfo: {
-      id: '666',
-      name: 'superfree',
-      password: '123456789'
-    } /* UserInfo */
+    userInfo: {} /* UserInfo */
   },
   mutations: {
     set_loginState(state) {
@@ -21,18 +17,22 @@ const user = {
     }
   },
   actions: {
+    // 登入
     login: async ({ commit }, loginParam /* UserParam */) => {
-      const userInfo = {
-        name: loginParam.username1,
-        password: loginParam.password
-      }
       // const res = await loginAPI(loginParam)
       const res = {
         data: {
           success: true
         }
       }
-      if (res.data.success) {
+      if (res && res.data && res.data.success) {
+        // const userInfo = res.data.content
+        const userInfo = {
+          id: 666,
+          name: 'superfree',
+          password: '123456789'
+        }
+        console.log(userInfo)
         commit('set_userInfo', userInfo)
         commit('set_loginState', true)
         return true
@@ -40,6 +40,7 @@ const user = {
         return false
       }
     },
+    // 注册
     register: async (_, registerParam /* UserParam */) => {
       const registerForm = {
         name: registerParam.newUser,
@@ -53,6 +54,7 @@ const user = {
       }
       return res.data.success
     },
+    // 登出
     logout: ({ commit }) => {
       commit('set_userInfo', {})
       commit('set_loginState', false)

@@ -258,20 +258,21 @@ export default {
     submitLogin() {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
-          console.log(this.loginForm)
-          const res = this.login(this.loginForm)
-          if (res) {
-            this.$notify.success({
-              title: '登入成功'
-            })
-            this.$router.push({ name: 'overview' })
-          } else {
-            this.$notify.error({
-              title: '登入失败'
-            })
-          }
+          // console.log(this.loginForm)
+          this.login(this.loginForm).then(res => {
+            if (res) {
+              this.$notify.success({
+                title: '登入成功'
+              })
+              this.$router.push({ name: 'overview' })
+            } else {
+              this.$notify.error({
+                title: '登入失败'
+              })
+            }
+          })
         } else {
-          console.log('fail')
+          console.log('loginForm invalid')
           return false
         }
       })
