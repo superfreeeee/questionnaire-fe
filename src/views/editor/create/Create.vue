@@ -48,6 +48,15 @@
               style="display: inline-block; width: 200px"
               v-model="option.content"
             ></el-input>
+            <el-button
+              type="danger"
+              icon="el-icon-close"
+              circle
+              size="small"
+              style="margin-left: 5px"
+              @click="removeOption(ques, index)"
+            >
+            </el-button>
           </div>
         </div>
         <div v-else-if="ques.type === 2">
@@ -73,6 +82,15 @@
               style="display: inline-block; width: 200px"
               v-model="option.content"
             ></el-input>
+            <el-button
+              type="danger"
+              icon="el-icon-close"
+              circle
+              size="small"
+              style="margin-left: 5px"
+              @click="removeOption(ques, index)"
+            >
+            </el-button>
           </div>
         </div>
         <el-input
@@ -123,58 +141,60 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
-  name: 'Create',
+  name: "Create",
   data() {
-    return {}
+    return {};
   },
   mounted() {},
   computed: {
-    ...mapGetters(['paperInfo', 'questionList']),
+    ...mapGetters(["paperInfo", "questionList"]),
     Listempty() {
-      return this.questionList.length !== 0
-    }
+      return this.questionList.length !== 0;
+    },
   },
   methods: {
-    ...mapActions(['createQuestion', 'updateQuestion']),
+    ...mapActions(["createQuestion", "updateQuestion"]),
     addQues(type) {
-      this.createQuestion(Number(type))
+      this.createQuestion(Number(type));
     },
     delQues(index) {
-      this.questionList.splice(index, 1)
+      this.questionList.splice(index, 1);
     },
     updQues(index) {
-      const ques = this.questionList[index]
-      const success = this.updateQuestion(ques)
-      success.then((res) => {
-        console.log(res)
-        if (res) {
-          this.$message.success('保存成功')
-        } else {
-          this.$message.error('保存失敗')
-        }
-      })
-      /*if(success) {
-        this.$message.success('保存成功')
-      }else{
-        this.$message.error('保存失敗')
-      }*/
+      const ques = this.questionList[index];
+      console.log(ques);
+      if (ques.options.length === 0) {
+        this.$message.error("選項不可為空!")
+      } else {
+        const success = this.updateQuestion(ques);
+        success.then((res) => {
+          if (res) {
+            this.$message.success("保存成功");
+          } else {
+            this.$message.error("保存失敗");
+          }
+        });
+      }
     },
     addOption(question) {
-      question.options.push({ content: '' })
+      question.options.push({ content: "" });
+    },
+    removeOption(question, index) {
+      question.options.splice(index, 1);
     },
     submitpaper() {
-      console.log('submitPaper')
-      console.log(this.paperInfo.id)
+      console.log("submitPaper");
+      console.log(this.paperInfo.id);
       this.$router.push({
-        name: 'paperlink',
-        params: { paperId: this.paperInfo.id }
-      })
-    }
-  }
-}
+        name: "paperlink",
+        params: { paperId: this.paperInfo.id },
+      });
+    },
+  },
+};
 </script>
 
 <style>
