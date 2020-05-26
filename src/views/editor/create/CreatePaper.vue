@@ -57,7 +57,7 @@ export default {
         title: this.title,
         description: this.description
       }
-      console.log(paperInfo)
+      // console.log(paperInfo)
       this.createNewPaper(paperInfo)
       if (this.$route.path !== '/editor/create') {
         this.$router.push('/editor/create')

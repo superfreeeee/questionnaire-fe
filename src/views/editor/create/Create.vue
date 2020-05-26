@@ -130,7 +130,11 @@ export default {
   data() {
     return {}
   },
-  mounted() {},
+  mounted() {
+    console.log('Create with paperInfo & questionList')
+    console.log(this.paperInfo)
+    console.log(this.questionList)
+  },
   computed: {
     ...mapGetters(['paperInfo', 'questionList']),
     Listempty() {
