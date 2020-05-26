@@ -85,7 +85,7 @@ const paper = {
                 description: '',
                 start_time: '5月12日',
                 end_time: null,
-                status: 0
+                status: 1
               },
               questionList: []
             },
@@ -97,7 +97,7 @@ const paper = {
                 description: '',
                 start_time: '5月18日',
                 end_time: null,
-                status: 0
+                status: 2
               },
               questionList: []
             },
@@ -109,7 +109,7 @@ const paper = {
                 description: '',
                 start_time: '5月29日',
                 end_time: null,
-                status: 0
+                status: 1
               },
               questionList: []
             }

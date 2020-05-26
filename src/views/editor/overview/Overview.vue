@@ -18,10 +18,13 @@
         <el-card class="paper_card" style="margin-bottom:30px">
           <div slot = "header" class = "clearfix">
             <span style = "fmargin-left: 2px">ID: {{ paper.paperInfo.id }}</span>
-            <label style="float: right">填写总数：</label>
+            <label v-if="paper.paperInfo.status===1" style="float: right">问卷状态：编辑中</label>
+            <label v-else-if="paper.paperInfo.status===2" style="float: right">问卷状态：已发放</label>
+            <label v-else-if="paper.paperInfo.status===3" style="float: right">问卷状态：已回收</label>
           </div>
-          <el-button type="text" style="float: left" @click="checkPaperDetail(paper.paperInfo.id)" icon="el-icon-edit">查看问卷</el-button>
-          <el-button type="text" style="float: left" @click="handleShare()" icon="el-icon-share">发放链接</el-button>
+          <el-button v-if="paper.paperInfo.status===1" type="text" style="float: left" @click="editPaper(paper.paperInfo.id)" icon="el-icon-edit">继续编辑</el-button>
+          <el-button v-if="paper.paperInfo.status===2 || paper.paperInfo.status===3" type="text" style="float: left" @click="checkPaperDetail(paper.paperInfo.id)" icon="el-icon-edit">查看问卷</el-button>
+          <el-button v-if="paper.paperInfo.status===2" type="text" style="float: left" @click="handleShare()" icon="el-icon-share">发放链接</el-button>
           <el-button type="text" style="float: left" @click="dialogVisible = true" icon="el-icon-delete">删除问卷</el-button>
           <el-dialog
             title="提示"
@@ -78,6 +81,9 @@
       },
       handleShare(){
         this.$router.push({ name: 'paperlink'})
+      },
+      editPaper(paperId){
+        
       },
       handleDelete(){
         

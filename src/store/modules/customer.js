@@ -107,6 +107,7 @@ const paper = {
             id: 1,
             type: 1,
             title: '单选题一',
+            selectNum:23,
             options: [
               {
                 id: 1,
@@ -135,6 +136,7 @@ const paper = {
             id: 2,
             type: 2,
             title: '多选题一',
+            selectNum:23,
             options: [
               {
                 id: 4,
@@ -184,6 +186,7 @@ const paper = {
             id: 3,
             type: 3,
             title: '简答',
+            selectNum:3,
             options:[{
               id:1,
               content:"今天天气不错"
