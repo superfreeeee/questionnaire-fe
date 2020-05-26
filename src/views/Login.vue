@@ -273,7 +273,6 @@ export default {
           })
         } else {
           console.log('loginForm invalid')
-          return false
         }
       })
     },
@@ -281,20 +280,20 @@ export default {
       this.$refs.registerForm.validate((valid) => {
         if (valid) {
           console.log(this.registerForm)
-          const res = this.register(this.registerForm)
-          if (res) {
-            this.$notify.success({
-              title: '注册成功'
-            })
-            this.goto('login')
-          } else {
-            this.$notify.error({
-              title: '注册失败'
-            })
-          }
+          this.register(this.registerForm).then(res => {
+            if (res) {
+              this.$notify.success({
+                title: '注册成功'
+              })
+              this.goto('login')
+            } else {
+              this.$notify.error({
+                title: '注册失败'
+              })
+            }
+          })
         } else {
-          console.log('fail')
-          return false
+          console.log('registerForm invalid')
         }
       })
     }
