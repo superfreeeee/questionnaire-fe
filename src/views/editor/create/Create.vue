@@ -52,7 +52,7 @@
               type="danger"
               icon="el-icon-close"
               circle
-              size="small"
+              size="mini"
               style="margin-left: 5px"
               @click="removeOption(ques, index)"
             >
@@ -86,7 +86,7 @@
               type="danger"
               icon="el-icon-close"
               circle
-              size="small"
+              size="mini"
               style="margin-left: 5px"
               @click="removeOption(ques, index)"
             >
@@ -170,8 +170,14 @@ export default {
     updQues(index) {
       const ques = this.questionList[index];
       console.log(ques);
-      if (ques.options.length === 0) {
-        this.$message.error("選項不可為空!")
+      if (ques.options.length === 0 && ques.text === '') {
+        this.$message.warning('請填寫題目')
+      }else if (ques.options.length === 0) {
+        this.$message.warning('選項不可為空')
+        return 
+      }else if (ques.text === '') {
+        this.$message.warning("題目描述不可為空")
+        return
       } else {
         const success = this.updateQuestion(ques);
         success.then((res) => {
