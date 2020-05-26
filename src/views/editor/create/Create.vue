@@ -172,6 +172,7 @@ export default {
       console.log(ques);
       if (ques.options.length === 0 && ques.text === '') {
         this.$message.warning('請填寫題目')
+        return 
       }else if (ques.options.length === 0) {
         this.$message.warning('選項不可為空')
         return 
