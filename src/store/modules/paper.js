@@ -85,7 +85,7 @@ const paper = {
                 description: '',
                 start_time: '5月12日',
                 end_time: null,
-                status: 0
+                status: 1
               },
               questionList: []
             },
@@ -97,7 +97,7 @@ const paper = {
                 description: '',
                 start_time: '5月18日',
                 end_time: null,
-                status: 0
+                status: 2
               },
               questionList: []
             },
@@ -109,7 +109,7 @@ const paper = {
                 description: '',
                 start_time: '5月29日',
                 end_time: null,
-                status: 0
+                status: 1
               },
               questionList: []
             }
@@ -126,15 +126,14 @@ const paper = {
     createNewPaper: async ({ state, commit, getters }, paper /* Paper */) => {
       // const res = await addPaperAPI(paper)
       // const paperId = res.data.cotent
-      const paperId = '12345'
       const paperInfo = {
-        id: paperId,
+        id: Math.floor(Math.random() * 100),
         userId: getters.userInfo.id,
         title: '',
         description: '',
         start_time: null,
         end_time: null,
-        status: 0,
+        status: 1,
         ...paper
       }
       // console.log(paperInfo)

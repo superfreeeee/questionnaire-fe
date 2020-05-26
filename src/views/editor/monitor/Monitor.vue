@@ -2,19 +2,25 @@
   <div class='monitor'>
     <el-container>
       <el-header height='30px'>
-        <div class="title" style="float: left; font-size: 30px; font-weight: 700">统计&分析 -- paperId:{{paperId}}</div>
+        <div class="title" style="float: left; font-size: 30px; font-weight: 700">统计&分析 -- {{monitorPaper.title}}</div>
 
       </el-header>
       <el-divider></el-divider>
       <el-main>
         <div class='analyzeTables' :model="monitorPaper">
           <div
-          v-for="(question) in monitorPaper.questionStatisticList"
-          :key="question.id"
+            v-for="(question) in monitorPaper.questionStatisticList"
+            :key="question.id"
           >
-
             <h1 class="qusetionTitle" style="font-size: 20px; font-weight: 700">第{{question.id}}题--{{question.title}}</h1>
-            <el-table v-if="question.type === 1 || question.type == 2" :data="question.options" border stripe  style="width:100%; margin-bottom: 30px">
+            <el-tag style="color:rgb(37,124,115);margin-bottom:10px;float:left">填写总数：{{question.selectNum}}</el-tag>          
+            <el-table 
+              v-if="question.type === 1 || question.type == 2" 
+              :data="question.options" 
+              border 
+              stripe  
+              style="width:100%; margin-bottom: 10px"
+            >
               <el-table-column prop="id" label="选项" sortable ></el-table-column>
               <el-table-column prop="content" label="选项描述">
                 <template slot-scope="scope">
@@ -26,10 +32,9 @@
               </el-table-column>
             </el-table>
 
-            <el-table v-if="question.type === 3" :data="question.options" border stripe style="width: 100%;margin-bottom: 30px">
+            <el-table v-if="question.type === 3" :data="question.options" border stripe style="width: 100%;margin-bottom: 40px">
               <el-table-column label="序号" prop="id" width="100"></el-table-column>
               <el-table-column label="答案文本" prop="content"></el-table-column>
-
             </el-table>
 
           </div>
@@ -63,7 +68,7 @@
       ...mapActions([
         'getFullPaperStatistic'
       ])
-    }
+    },
   }
 </script>
 

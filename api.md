@@ -186,6 +186,7 @@ interface QuestionStatistic {
   paperId: number // 所属问卷 Id
   type: number // 题目类型：1 单选、2 多选、3 简答
   title: string // 题目说明
+  selectedNum: number
   options: OptionStatistic[] // 选项统计列表
 }
 
