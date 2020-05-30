@@ -167,7 +167,7 @@ export default {
     },
     delQues(index) {
       const ques = this.questionList[index];
-      const success = this.deleteQuestion(ques.id);
+      const success = this.deleteQuestion(ques.questionId);
       success.then((res) => {
         if (res) {
           this.$message.success("刪除成功");
