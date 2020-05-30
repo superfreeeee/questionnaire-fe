@@ -162,7 +162,8 @@ export default {
   methods: {
     ...mapActions(["createQuestion", "updateQuestion"]),
     addQues(type) {
-      this.createQuestion(Number(type));
+      console.log('paperInfo.id: ' + this.paperInfo.id)
+      this.createQuestion(Number(type), this.paperInfo.id);
     },
     delQues(index) {
       this.questionList.splice(index, 1);
