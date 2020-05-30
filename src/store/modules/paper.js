@@ -195,7 +195,7 @@ const paper = {
       }
       
     },
-    submitPaper: async({ state }) => {
+    activatePaper: async({ state }) => {
       const paperInfo = state.currentPaper.paperInfo
       if(paperInfo.startTime == null) {
         paperInfo.status = "START"

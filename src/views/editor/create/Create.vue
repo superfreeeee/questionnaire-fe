@@ -167,7 +167,7 @@ export default {
       'updateQuestion',
       'deleteQuestion',
       'updatePaperInfo',
-      'submitPaper'
+      'activatePaper'
     ]),
     updatePaper() {
       console.log('invoke updatePaper')
@@ -253,7 +253,7 @@ export default {
         i++
       }
       // 跟更新问卷状态
-      const res = await this.submitPaper()
+      const res = await this.activatePaper()
       console.log(res)
       if (res) {
         this.$message.success(`发放成功`)
