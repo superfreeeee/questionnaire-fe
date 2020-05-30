@@ -149,7 +149,7 @@ const paper = {
       commit('set_paperInfo', paperInfo)
       commit('set_questionList', [])
     },
-    deletePaper: async({ state, commit, getters }, index) => {
+    deletePaper: async({ state }, index) => {
       const targetPaper = state.paperList[index]
       // const res = deletePaperAPI(targetPaper.id)
       const res = {
