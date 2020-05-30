@@ -5,17 +5,19 @@
         >问卷列表</span>
       <div>
         <el-button type="primary" style="float: right" @click="createPaper()"
-          >创建问卷</el-button
+          >新增问卷</el-button
         >
       </div>
     </el-header>
     <el-divider></el-divider>
 
     <el-main class="papers">
+      <h1 v-if="allPapers.length === 0"> 无问卷信息，点击<span @click="createPaper()" style="cursor: pointer; color: blue;">新增问卷</span>！</h1>
       <div v-for="(paper, index) in allPapers" :key="paper.id" style="display:block">
         <el-card class="paper_card" style="margin-bottom:30px">
           <div slot="header" class="clearfix">
-            <span style="fmargin-left: 2px">ID: {{ paper.id }}</span>
+            <span style="margin-left: 5px">ID: {{ paper.id }}</span>
+            <span style="margin-left: 5px">标题: {{ paper.title }}</span>
             <label v-if="paper.status === 'INIT'" style="float: right"
               >问卷状态：编辑中</label
             >
@@ -93,7 +95,7 @@ export default {
     ...mapGetters(['allPapers'])
   },
   methods: {
-    ...mapActions(['getAllPapers', 'deletePaper']),
+    ...mapActions(['getAllPapers', 'deletePaper', 'editOldPaper']),
     ...mapMutations(['set_createPaperVisible']),
     createPaper() {
       console.log(this.set_createPaperVisible)
@@ -106,7 +108,17 @@ export default {
     handleShare() {
       this.$router.push({ name: 'paperlink' })
     },
-    editPaper(paperId) {},
+    editPaper(paperId) {
+      this.editOldPaper(paperId).then(res => {
+        if(res) {
+          this.$router.push('/editor/create')
+        } else {
+          this.$notify.success({
+            title: '异常问卷，请询问管理员'
+          })
+        }
+      })
+    },
     handleDelete() {
       const index = this.deleteDialogInfo.index
       console.log(`delete paper with index: ${index}`)

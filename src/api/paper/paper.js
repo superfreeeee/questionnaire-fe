@@ -28,6 +28,14 @@ export function reviewPaperAPI(paperId) {
     })
 }
 
+// 删除问卷
+export function deletePaperAPI(paperId) {
+    return axios({
+        url: `${api.paperPre}/${paperId}/deletePaper`,
+        method: 'GET'
+    })
+}
+
 // 添加问卷
 export function addPaperAPI(data) {
     return axios({
@@ -43,14 +51,6 @@ export function updatePaperAPI(data) {
         url: `${api.paperPre}/updatePaper`,
         method: 'POST',
         data
-    })
-}
-
-// 删除问卷
-export function deletePaperAPI(paperId) {
-    return axios({
-        url: `${api.paperPre}/deletePaper`,
-        method: 'POST'
     })
 }
 

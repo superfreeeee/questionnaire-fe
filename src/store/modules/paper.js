@@ -20,34 +20,34 @@ const paper = {
       paperInfo: {} /* Paper */,
       questionList: [
         /* Question[] */
-        {
-          type: 1, // 單擇
-          text: '',
-          options: [
-            {
-              content: ''
-            }
-          ]
-        },
-        {
-          type: 3, // 文字
-          text: '',
-          answer: ''
-        },
-        {
-          type: 2, // 多選
-          text: '',
-          options: [
-            {
-              content: ''
-            }
-          ]
-        },
-        {
-          type: 3,
-          text: '',
-          answer: ''
-        }
+        // {
+        //   type: 1, // 單擇
+        //   text: '',
+        //   options: [
+        //     {
+        //       content: ''
+        //     }
+        //   ]
+        // },
+        // {
+        //   type: 3, // 文字
+        //   text: '',
+        //   answer: ''
+        // },
+        // {
+        //   type: 2, // 多選
+        //   text: '',
+        //   options: [
+        //     {
+        //       content: ''
+        //     }
+        //   ]
+        // },
+        // {
+        //   type: 3,
+        //   text: '',
+        //   answer: ''
+        // }
       ]
     },
     createPaperVisible: false // show createPaper Component
@@ -149,14 +149,40 @@ const paper = {
       commit('set_paperInfo', paperInfo)
       commit('set_questionList', [])
     },
+    // 继续编辑已有问卷
+    editOldPaper: async ({ commit }, paperId) => {
+      const res = await checkPaperAPI(paperId)
+      // console.log(res)
+      if(res && res.data.success) {
+        const paperInfo = res.data.content
+        const questionList = paperInfo.questionList
+        paperInfo.questionList = undefined
+        for(let question of questionList) {
+          if(question.type == null) {
+            question.type = 3
+          }
+        }
+        commit('set_paperInfo', paperInfo)
+        commit('set_questionList', questionList)
+        return true
+      } else {
+        return false
+      }
+    },
+    updatePaperInfo: async(_, paperInfo) => {
+      const res = await updatePaperAPI(paperInfo)
+      console.log(res)
+      return res && res.data.success
+    },
     deletePaper: async({ state }, index) => {
       const targetPaper = state.paperList[index]
-      // const res = deletePaperAPI(targetPaper.id)
-      const res = {
-        data: {
-          success: true
-        }
-      }
+      const res = await deletePaperAPI(targetPaper.id)
+      // console.log(res)
+      // const res = {
+      //   data: {
+      //     success: true
+      //   }
+      // }
       if(res && res.data.success) {
         // console.log(targetPaper)
         // console.log(index)
@@ -169,18 +195,24 @@ const paper = {
       }
       
     },
+    submitPaper: async({ state }) => {
+      const paperInfo = state.currentPaper.paperInfo
+      paperInfo.status = "START"
+      const res = await updatePaperAPI(paperInfo)
+      return res && res.data.success
+    },
     // 创建问题
-    createQuestion: async ({ commit }, type, paperId) => {
-      const res = await addQuestionsAPI(paperId)
+    createQuestion: async ({ commit }, quesParam) => {
+      const res = await addQuestionsAPI(quesParam.paperId)
       const questionId = res.data.content
       //const questionId = 1
       let newQues = {
-        questionId,
-        paperId,
-        type,
-        text: ''
+        id: questionId,
+        ...quesParam,
+        title: '',
+        options: null
       }
-      if (type <= 2) {
+      if (newQues.type <= 2) {
         // 是單選或多選才有選項
         newQues.options = [
           {
@@ -189,9 +221,17 @@ const paper = {
         ]
       }
       commit('add_question', newQues)
+      console.log(newQues)
     },
     // 更新问题
-    updateQuestion: async ({ commit }, ques) => {
+    updateQuestion: async (_, ques) => {
+      const questionId = ques.id
+      const options = ques.options
+      for(let index in options) {
+        options[index].questionId = questionId
+        options[index].sequence = Number(index) + 1
+      }
+      console.log(ques)
       const res = await updateQuestionAPI(ques)
       //console.log(ques)
       /*const res = {
@@ -201,14 +241,18 @@ const paper = {
           content: ''
         }
       }*/
-      const success = res.data.success
-      return success
+      return res && res.data.success
     },
     // 删除问题
-    deleteQuestion: async ({ commit }, questionId) => {
-      const res = await deleteQuestionAPI(questionId)
-      const success = res.data.success
-      return success
+    deleteQuestion: async ({ state }, delQuesParam) => {
+      const res = await deleteQuestionAPI(delQuesParam.questionId)
+      if(res && res.data.success) {
+        const questionList = state.currentPaper.questionList
+        questionList.splice(delQuesParam.index, 1)
+        return true
+      } else {
+        return false
+      }
     }
   }
 }

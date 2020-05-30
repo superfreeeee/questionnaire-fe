@@ -1,18 +1,24 @@
 <template>
   <div class="create">
     <div class="header">
-      <span class="name">【 {{ paperInfo.title }} 】</span>
+      标题：<el-input type="text" placeholder="输入标题" v-model="paperInfo.title" style="max-width: 250px;" @blur="updatePaper()" />
     </div>
+
     <el-divider />
+
+    <span>问卷说明：</span>
     <el-input
       type="textarea"
       :autosize="{ minRows: 2, maxRows: 4 }"
       placeholder="请输入問卷說明"
       v-model="paperInfo.description"
       style="width: 800px; padding-right: 100px"
+      @blur="updatePaper()"
     >
     </el-input>
+
     <el-divider />
+
     <el-form>
       <el-form-item
         style="text-align: left"
@@ -24,7 +30,7 @@
         <el-input
           type="textarea"
           placeholder="请输入問題"
-          v-model="ques.text"
+          v-model="ques.title"
           style="width: 700px; border: 2px solid; display: block"
         >
         </el-input>
@@ -111,21 +117,9 @@
     <!--<div style="margin-bottom: 30px; padding-left: 700px; padding-bottom: 30px">
 
     </div>-->
-    <div style="padding-bottom: 20px" v-if="Listempty">
-      <el-button type="success" @click="submitpaper()">發放問卷 !</el-button>
-      <el-divider direction="vertical" />
-      <el-dropdown @command="addQues">
-        <el-button type="primary"
-          >新增問題<i class="el-icon-arrow-down el-icon--right"></i
-        ></el-button>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item command="1">單選</el-dropdown-item>
-          <el-dropdown-item command="2" divided>多選</el-dropdown-item>
-          <el-dropdown-item command="3" divided>簡答</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
-    </div>
-    <div style="padding-bottom: 20px" v-else>
+    <div style="padding-bottom: 20px">
+      <el-button v-if="Listempty" type="success" @click="submitpaper()">發放問卷 !</el-button>
+      <el-divider v-if="Listempty" direction="vertical" />
       <el-dropdown @command="addQues">
         <el-button type="primary"
           >新增問題<i class="el-icon-arrow-down el-icon--right"></i
@@ -160,15 +154,32 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["createQuestion", "updateQuestion", "deleteQuestion"]),
+    ...mapActions(["createQuestion", "updateQuestion", "deleteQuestion", 'updatePaperInfo']),
+    updatePaper() {
+      console.log('invoke updatePaper')
+      console.log(this.paperInfo)
+      this.updatePaperInfo(this.paperInfo).then(res => {
+        if(!res) {
+          this.$message.success("网路异常");
+        }
+      })
+    },
     addQues(type) {
-      console.log("paperInfo.id: " + this.paperInfo.id);
-      this.createQuestion(Number(type), this.paperInfo.id);
+      const paperId = this.paperInfo.id
+      console.log(`addQuestion with paperId: ${paperId}`)
+      const quesParam = {
+        paperId,
+        type: Number(type)
+      }
+      this.createQuestion(quesParam);
     },
     delQues(index) {
       const ques = this.questionList[index];
-      const success = this.deleteQuestion(ques.questionId);
-      success.then((res) => {
+      const delQuesParam = {
+        questionId: ques.id,
+        index
+      }
+      this.deleteQuestion(delQuesParam).then((res) => {
         if (res) {
           this.$message.success("刪除成功");
         } else {
@@ -177,27 +188,36 @@ export default {
       });
     },
     updQues(index) {
+      // console.log('index: ' + index)
+      // console.log(this.questionList)
       const ques = this.questionList[index];
-      console.log(ques);
-      if (ques.options.length === 0 && ques.text === "") {
-        this.$message.warning("請填寫題目");
-        return;
-      } else if (ques.options.length === 0) {
-        this.$message.warning("選項不可為空");
-        return;
-      } else if (ques.text === "") {
-        this.$message.warning("題目描述不可為空");
-        return;
-      } else {
-        const success = this.updateQuestion(ques);
-        success.then((res) => {
-          if (res) {
-            this.$message.success("保存成功");
-          } else {
-            this.$message.error("保存失敗");
-          }
-        });
+      console.log(`invoke updateQuesiton questionId: ${ques.id}`)
+      // console.log(ques)
+      if (ques.title === "") {
+        this.$message.warning("題目描述不可為空")
+        return
       }
+      if(ques.type <= 2) {
+        if (ques.options.length < 2) {
+          this.$message.warning("选择题至少要有两个选项")
+          return
+        }
+        // 检查选项
+        for(let option of ques.options) {
+          if(option.content.length === 0) {
+            this.$message.warning("選項不可為空")
+            return
+          }
+        }
+      }
+      // console.log(ques)
+      this.updateQuestion(ques).then((res) => {
+        if (res) {
+          this.$message.success("保存成功");
+        } else {
+          this.$message.error("保存失敗");
+        }
+      });
     },
     addOption(question) {
       question.options.push({ content: "" });
@@ -205,13 +225,28 @@ export default {
     removeOption(question, index) {
       question.options.splice(index, 1);
     },
-    submitpaper() {
+    submitpaper: async function() {
       console.log("submitPaper");
       console.log(this.paperInfo.id);
-      this.$router.push({
-        name: "paperlink",
-        params: { paperId: this.paperInfo.id },
-      });
+      let i = 0
+      for(let question of this.questionList) {
+        const res = await this.updateQuestion(question)
+        if(!res) {
+          this.$message.error(`问题 ${i} 保存失敗`);
+          return
+        }
+        i++
+      }
+      const res = await this.updatePaper()
+      if(res) {
+        this.$message.success(`发放成功`);
+        this.$router.push({
+          name: "paperlink",
+          params: { paperId: this.paperInfo.id },
+        });
+      } else {
+          this.$message.error(`发放问卷异常`);
+      }
     },
   },
 };
@@ -222,6 +257,8 @@ export default {
   height: 50px;
   padding: 0 20px;
   line-height: 47px;
+  font-size: 20px;
+  text-align: left;
 }
 
 .name {
