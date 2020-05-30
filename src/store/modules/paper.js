@@ -10,7 +10,7 @@ import {
 import {
   addQuestionsAPI,
   updateQuestionAPI,
-  deleteQuestion
+  deleteQuestionAPI
 } from '../../api/paper/question'
 
 const paper = {
@@ -172,7 +172,7 @@ const paper = {
     // 创建问题
     createQuestion: async ({ commit }, type, paperId) => {
       const res = await addQuestionsAPI(paperId)
-      const questionId = res.content
+      const questionId = res.data.content
       //const questionId = 1
       let newQues = {
         questionId,
@@ -201,12 +201,14 @@ const paper = {
           content: ''
         }
       }*/
-      const success = res.success
+      const success = res.data.success
       return success
     },
     // 删除问题
     deleteQuestion: async ({ commit }, questionId) => {
-      console.log(`delete question, questionId = ${questionId}`)
+      const res = await deleteQuestionAPI(questionId)
+      const success = res.data.success
+      return success
     }
   }
 }

@@ -149,9 +149,9 @@ export default {
     return {};
   },
   mounted() {
-    console.log('Create with paperInfo & questionList')
-    console.log(this.paperInfo)
-    console.log(this.questionList)
+    console.log("Create with paperInfo & questionList");
+    console.log(this.paperInfo);
+    console.log(this.questionList);
   },
   computed: {
     ...mapGetters(["paperInfo", "questionList"]),
@@ -160,26 +160,34 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["createQuestion", "updateQuestion"]),
+    ...mapActions(["createQuestion", "updateQuestion", "deleteQuestion"]),
     addQues(type) {
-      console.log('paperInfo.id: ' + this.paperInfo.id)
+      console.log("paperInfo.id: " + this.paperInfo.id);
       this.createQuestion(Number(type), this.paperInfo.id);
     },
     delQues(index) {
-      this.questionList.splice(index, 1);
+      const ques = this.questionList[index];
+      const success = this.deleteQuestion(ques.id);
+      success.then((res) => {
+        if (res) {
+          this.$message.success("刪除成功");
+        } else {
+          this.$message.error("刪除失敗");
+        }
+      });
     },
     updQues(index) {
       const ques = this.questionList[index];
       console.log(ques);
-      if (ques.options.length === 0 && ques.text === '') {
-        this.$message.warning('請填寫題目')
-        return 
-      }else if (ques.options.length === 0) {
-        this.$message.warning('選項不可為空')
-        return 
-      }else if (ques.text === '') {
-        this.$message.warning("題目描述不可為空")
-        return
+      if (ques.options.length === 0 && ques.text === "") {
+        this.$message.warning("請填寫題目");
+        return;
+      } else if (ques.options.length === 0) {
+        this.$message.warning("選項不可為空");
+        return;
+      } else if (ques.text === "") {
+        this.$message.warning("題目描述不可為空");
+        return;
       } else {
         const success = this.updateQuestion(ques);
         success.then((res) => {

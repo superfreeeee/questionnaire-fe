@@ -22,7 +22,7 @@ export function updateQuestionAPI(data) {
 }
 
 // 删除问题
-export function deleteQuestion(questionId) {
+export function deleteQuestionAPI(questionId) {
     return axios({
         url: `${api.questionPre}/${questionId}/deleteQuestion`,
         method: 'GET',
