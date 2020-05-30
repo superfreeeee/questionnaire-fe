@@ -7,7 +7,7 @@ const api = {
 // 添加问题
 export function addQuestionsAPI(paperId) {
     return axios({
-        url: `${api.questionPre}/${paperId}/addQuestions`,
+        url: `${api.questionPre}/${paperId}/addQuestion`,
         method: 'GET',
     })
 }

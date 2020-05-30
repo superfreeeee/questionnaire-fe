@@ -170,12 +170,12 @@ const paper = {
       
     },
     // 创建问题
-    createQuestion: async ({ commit }, type) => {
-      // const res = await addQuestionsAPI()
-      console.log(type)
-      const questionId = 1
-      const newQues = {
-        questionId,
+    createQuestion: async ({ commit }, type, paperId) => {
+      const res = await addQuestionsAPI(paperId)
+      //const questionId = 1
+      let newQues = {
+        res,
+        paperId,
         type,
         text: ''
       }
@@ -191,16 +191,16 @@ const paper = {
     },
     // 更新问题
     updateQuestion: async ({ commit }, ques) => {
-      // const res = await updateQuestionAPI(ques)
-      console.log(ques)
-      const res = {
+      const res = await updateQuestionAPI(ques)
+      //console.log(ques)
+      /*const res = {
         data: {
           success: false,
           message: '',
           content: ''
         }
-      }
-      const success = res.data.success
+      }*/
+      const success = res.success
       return success
     },
     // 删除问题
