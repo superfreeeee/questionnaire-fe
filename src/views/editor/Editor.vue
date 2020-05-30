@@ -10,7 +10,7 @@
     </el-header>
     <el-container>
       <el-aside width="200px">
-        <el-menu @select="handleMenuSelect">
+        <el-menu @select="handleMenuSelect" default-active="overview">
           <el-menu-item index="overview">
             <i class="el-icon-coin"></i>
             <span>问卷总览</span>

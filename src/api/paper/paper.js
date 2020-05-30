@@ -46,6 +46,14 @@ export function updatePaperAPI(data) {
     })
 }
 
+// 删除问卷
+export function deletePaperAPI(paperId) {
+    return axios({
+        url: `${api.paperPre}/deletePaper`,
+        method: 'POST'
+    })
+}
+
 // 
 // export function invalidatePaperAPI(paperId) {
 //     return axios({
