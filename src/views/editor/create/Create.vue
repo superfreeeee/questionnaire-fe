@@ -1,7 +1,13 @@
 <template>
   <div class="create">
     <div class="header">
-      标题：<el-input type="text" placeholder="输入标题" v-model="paperInfo.title" style="max-width: 250px;" @blur="updatePaper()" />
+      标题：<el-input
+        type="text"
+        placeholder="输入标题"
+        v-model="paperInfo.title"
+        style="max-width: 250px;"
+        @blur="updatePaper()"
+      />
     </div>
 
     <el-divider />
@@ -118,7 +124,9 @@
 
     </div>-->
     <div style="padding-bottom: 20px">
-      <el-button v-if="Listempty" type="success" @click="submitpaper()">發放問卷 !</el-button>
+      <el-button v-if="Listempty" type="success" @click="submitpaper()"
+        >發放問卷 !</el-button
+      >
       <el-divider v-if="Listempty" direction="vertical" />
       <el-dropdown @command="addQues">
         <el-button type="primary"
@@ -135,32 +143,38 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from "vuex";
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 
 export default {
-  name: "Create",
+  name: 'Create',
   data() {
-    return {};
+    return {}
   },
   mounted() {
-    console.log("Create with paperInfo & questionList");
-    console.log(this.paperInfo);
-    console.log(this.questionList);
+    console.log('Create with paperInfo & questionList')
+    console.log(this.paperInfo)
+    console.log(this.questionList)
   },
   computed: {
-    ...mapGetters(["paperInfo", "questionList"]),
+    ...mapGetters(['paperInfo', 'questionList']),
     Listempty() {
-      return this.questionList.length !== 0;
-    },
+      return this.questionList.length !== 0
+    }
   },
   methods: {
-    ...mapActions(["createQuestion", "updateQuestion", "deleteQuestion", 'updatePaperInfo']),
+    ...mapActions([
+      'createQuestion',
+      'updateQuestion',
+      'deleteQuestion',
+      'updatePaperInfo',
+      'submitPaper'
+    ]),
     updatePaper() {
       console.log('invoke updatePaper')
       console.log(this.paperInfo)
-      this.updatePaperInfo(this.paperInfo).then(res => {
-        if(!res) {
-          this.$message.success("网路异常");
+      this.updatePaperInfo(this.paperInfo).then((res) => {
+        if (!res) {
+          this.$message.success('网路异常')
         }
       })
     },
@@ -171,41 +185,41 @@ export default {
         paperId,
         type: Number(type)
       }
-      this.createQuestion(quesParam);
+      this.createQuestion(quesParam)
     },
     delQues(index) {
-      const ques = this.questionList[index];
+      const ques = this.questionList[index]
       const delQuesParam = {
         questionId: ques.id,
         index
       }
       this.deleteQuestion(delQuesParam).then((res) => {
         if (res) {
-          this.$message.success("刪除成功");
+          this.$message.success('刪除成功')
         } else {
-          this.$message.error("刪除失敗");
+          this.$message.error('刪除失敗')
         }
-      });
+      })
     },
     updQues(index) {
       // console.log('index: ' + index)
       // console.log(this.questionList)
-      const ques = this.questionList[index];
+      const ques = this.questionList[index]
       console.log(`invoke updateQuesiton questionId: ${ques.id}`)
       // console.log(ques)
-      if (ques.title === "") {
-        this.$message.warning("題目描述不可為空")
+      if (ques.title === '') {
+        this.$message.warning('題目描述不可為空')
         return
       }
-      if(ques.type <= 2) {
+      if (ques.type <= 2) {
         if (ques.options.length < 2) {
-          this.$message.warning("选择题至少要有两个选项")
+          this.$message.warning('选择题至少要有两个选项')
           return
         }
         // 检查选项
-        for(let option of ques.options) {
-          if(option.content.length === 0) {
-            this.$message.warning("選項不可為空")
+        for (let option of ques.options) {
+          if (option.content.length === 0) {
+            this.$message.warning('選項不可為空')
             return
           }
         }
@@ -213,45 +227,46 @@ export default {
       // console.log(ques)
       this.updateQuestion(ques).then((res) => {
         if (res) {
-          this.$message.success("保存成功");
+          this.$message.success('保存成功')
         } else {
-          this.$message.error("保存失敗");
+          this.$message.error('保存失敗')
         }
-      });
+      })
     },
     addOption(question) {
-      question.options.push({ content: "" });
+      question.options.push({ content: '' })
     },
     removeOption(question, index) {
-      question.options.splice(index, 1);
+      question.options.splice(index, 1)
     },
     submitpaper: async function() {
-      console.log("submitPaper");
-      console.log(this.paperInfo.id);
+      console.log('submitPaper')
+      console.log(this.paperInfo.id)
       // 保存所有题目
       let i = 0
-      for(let question of this.questionList) {
+      for (let question of this.questionList) {
         const res = await this.updateQuestion(question)
-        if(!res) {
-          this.$message.error(`问题 ${i} 保存失敗`);
+        if (!res) {
+          this.$message.error(`问题 ${i} 保存失敗`)
           return
         }
         i++
       }
       // 跟更新问卷状态
-      const res = await this.updatePaper()
-      if(res) {
-        this.$message.success(`发放成功`);
+      const res = await this.submitPaper()
+      console.log(res)
+      if (res) {
+        this.$message.success(`发放成功`)
         this.$router.push({
-          name: "paperlink",
-          params: { paperId: this.paperInfo.id },
-        });
+          name: 'paperlink',
+          params: { paperId: this.paperInfo.id }
+        })
       } else {
-          this.$message.error(`发放问卷异常`);
+        this.$message.error(`发放问卷异常`)
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style>
