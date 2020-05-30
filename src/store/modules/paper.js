@@ -143,9 +143,10 @@ const paper = {
     // 创建问题
     createQuestion: async ({ commit }, type, paperId) => {
       const res = await addQuestionsAPI(paperId)
+      const questionId = res.content
       //const questionId = 1
       let newQues = {
-        res,
+        questionId,
         paperId,
         type,
         text: ''
