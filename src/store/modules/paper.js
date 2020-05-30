@@ -197,7 +197,9 @@ const paper = {
     },
     submitPaper: async({ state }) => {
       const paperInfo = state.currentPaper.paperInfo
-      paperInfo.status = "START"
+      if(paperInfo.startTime == null) {
+        paperInfo.status = "START"
+      }
       const res = await updatePaperAPI(paperInfo)
       return res && res.data.success
     },

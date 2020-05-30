@@ -228,6 +228,7 @@ export default {
     submitpaper: async function() {
       console.log("submitPaper");
       console.log(this.paperInfo.id);
+      // 保存所有题目
       let i = 0
       for(let question of this.questionList) {
         const res = await this.updateQuestion(question)
@@ -237,6 +238,7 @@ export default {
         }
         i++
       }
+      // 跟更新问卷状态
       const res = await this.updatePaper()
       if(res) {
         this.$message.success(`发放成功`);
