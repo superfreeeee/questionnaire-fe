@@ -19,19 +19,23 @@ const user = {
   actions: {
     // 登入
     login: async ({ commit }, loginParam /* UserParam */) => {
-      // const res = await loginAPI(loginParam)
-      const res = {
-        data: {
-          success: true
-        }
+      const loginForm = {
+        name: loginParam.username1,
+        password: loginParam.password
       }
+      const res = await loginAPI(loginForm)
+      // const res = {
+      //   data: {
+      //     success: true
+      //   }
+      // }
       if (res && res.data && res.data.success) {
-        // const userInfo = res.data.content
-        const userInfo = {
-          id: 666,
-          name: 'superfree',
-          password: '123456789'
-        }
+        const userInfo = res.data.content
+        // const userInfo = {
+        //   id: 666,
+        //   name: 'superfree',
+        //   password: '123456789'
+        // }
         console.log(userInfo)
         commit('set_userInfo', userInfo)
         commit('set_loginState', true)
@@ -46,12 +50,13 @@ const user = {
         name: registerParam.newUser,
         password: registerParam.newPW
       }
-      // const res = await registerAPI(registerForm)
-      const res = {
-        data: {
-          success: true
-        }
-      }
+      const res = await registerAPI(registerForm)
+      console.log(res)
+      // const res = {
+      //   data: {
+      //     success: true
+      //   }
+      // }
       return res.data.success
     },
     // 登出
