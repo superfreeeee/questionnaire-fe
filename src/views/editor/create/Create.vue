@@ -25,6 +25,25 @@
 
     <el-divider />
 
+    <div style="height: 50px; text-align: left; line-height: 50px">
+      <el-radio v-model="radio" label="1" @change="invisibleDatePicker(1)">手动结束收集</el-radio>
+      <el-divider direction="vertical"/>
+      <el-radio v-model="radio" label="2" @change="visibleDatepicker(2)">开始时间-结束时间</el-radio>
+    </div>
+    <div style="height: 30px; text-align: left; line-height: 30px; margin-bottom: 40px" v-if="datepicker">
+      <el-date-picker
+        v-model="date"
+        type="daterange"
+        range-separator="至"
+        start-placeholder="开始日期"
+        end-placeholder="结束日期"
+        v-if="datepicker"
+      >
+      </el-date-picker>
+    </div>
+
+    <el-divider />
+
     <el-form>
       <el-form-item
         style="text-align: left"
@@ -148,7 +167,11 @@ import { mapActions, mapGetters, mapMutations } from 'vuex'
 export default {
   name: 'Create',
   data() {
-    return {}
+    return {
+      datepicker: false,
+      radio: '1',
+      date: ''
+    }
   },
   mounted() {
     console.log('Create with paperInfo & questionList')
@@ -169,6 +192,12 @@ export default {
       'updatePaperInfo',
       'activatePaper'
     ]),
+    visibleDatepicker() {
+      this.datepicker = true
+    },
+    invisibleDatePicker() {
+      this.datepicker = false
+    },
     updatePaper() {
       console.log('invoke updatePaper')
       console.log(this.paperInfo)
