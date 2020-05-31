@@ -128,7 +128,9 @@
           </div>
         </div>
         <div v-else>
-          <el-tag type="info" style="margin-top: 10px">填充题</el-tag>
+          <div>
+            <el-tag type="info" style="margin-top: 10px">填充题</el-tag>
+          </div>
           <el-input
             type="textarea"
             placeholder="回答"
