@@ -103,7 +103,7 @@ export default {
       this.set_createPaperVisible(true)
     },
     checkPaperDetail(paperId) {
-      console.log(paperId)
+      console.log(`check paper detail with paperId: ${paperId}`)
       this.$router.push({ name: 'monitor', params: { paperId } })
     },
     handleShare() {
