@@ -263,28 +263,34 @@ export default {
         }
       })
     },
+    checkQues(ques) {
+      if (ques.title === '') {
+        this.$message.warning('題目描述不可為空')
+        return false
+      }
+      if (ques.type <= 2) {
+        if (ques.options.length < 2) {
+          this.$message.warning('选择题至少要有两个选项')
+          return false
+        }
+        // 检查选项
+        for (let option of ques.options) {
+          if (option.content.length === 0) {
+            this.$message.warning('選項不可為空')
+            return false
+          }
+        }
+      }
+      return true
+    },
     updQues(index) {
       // console.log('index: ' + index)
       // console.log(this.questionList)
       const ques = this.questionList[index]
       console.log(`invoke updateQuesiton questionId: ${ques.id}`)
       // console.log(ques)
-      if (ques.title === '') {
-        this.$message.warning('題目描述不可為空')
+      if(!this.checkQues(ques)) {
         return
-      }
-      if (ques.type <= 2) {
-        if (ques.options.length < 2) {
-          this.$message.warning('选择题至少要有两个选项')
-          return
-        }
-        // 检查选项
-        for (let option of ques.options) {
-          if (option.content.length === 0) {
-            this.$message.warning('選項不可為空')
-            return
-          }
-        }
       }
       // console.log(ques)
       this.updateQuestion(ques).then((res) => {
@@ -305,8 +311,25 @@ export default {
       console.log(`submitPaper with paperId: ${this.paperInfo.id}`)
       // 保存所有题目
       let i = 0
-      for (let question of this.questionList) {
-        const res = await this.updateQuestion(question)
+      for (let ques of this.questionList) {
+        if (ques.title === '') {
+          this.$message.warning(`问题 ${i} 題目描述不可為空`)
+          return
+        }
+        if (ques.type <= 2) {
+          if (ques.options.length < 2) {
+            this.$message.warning(`问题 ${i} 选择题至少要有两个选项`)
+            return
+          }
+          // 检查选项
+          for (let option of ques.options) {
+            if (option.content.length === 0) {
+              this.$message.warning(`问题 ${i} 選項不可為空`)
+              return
+            }
+          }
+        }
+        const res = await this.updateQuestion(ques)
         if (!res) {
           this.$message.error(`问题 ${i} 保存失敗`)
           return
