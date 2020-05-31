@@ -6,6 +6,7 @@
           <i class="el-icon-edit"></i>
           My Questionnaire
         </span>
+        <span style="float: right;font-size: 30px; cursor: pointer" @click="logout()">登出</span>
       </div>
     </el-header>
     <el-container>
@@ -31,7 +32,7 @@
 
 <script>
 import CreatePaper from './create/CreatePaper'
-import { mapMutations, mapGetters } from 'vuex';
+import { mapMutations, mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'Editor',
@@ -39,9 +40,7 @@ export default {
     CreatePaper
   },
   computed: {
-    ...mapGetters([
-      'userInfo'
-    ])
+    ...mapGetters(['userInfo'])
   },
   methods: {
     ...mapMutations([
@@ -49,21 +48,25 @@ export default {
       'set_loginState',
       'set_userInfo'
     ]),
+    ...mapActions(['logoutAct']),
     handleMenuSelect(index) {
-      if(index === 'overview') {
+      if (index === 'overview') {
         const route = this.$route.path
-        if(route !== '/editor/overview') {
+        if (route !== '/editor/overview') {
           this.$router.push({ name: index })
         }
-      } else if(index === 'create') {
+      } else if (index === 'create') {
         this.set_createPaperVisible(true)
       }
     },
     logout() {
-      // console.log('logout')
-      this.set_loginState(false)
-      this.set_userInfo({})
-      this.$router.push('/login')
+      console.log('logout')
+      this.logoutAct().then(res => {
+        if(res) {
+          this.$router.go({ name: 'login' })
+        }
+      })
+      // this.$router.push('/login')
     }
   }
 }
@@ -71,7 +74,8 @@ export default {
 
 <style>
 * {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .editor {

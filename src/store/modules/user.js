@@ -1,7 +1,5 @@
-import {
-  loginAPI,
-  registerAPI
-} from '../../api/user/user'
+import { loginAPI, registerAPI } from '../../api/user/user'
+import { setToken, removeToken } from '../../utils/auth'
 
 const user = {
   state: {
@@ -39,6 +37,7 @@ const user = {
         console.log(userInfo)
         commit('set_userInfo', userInfo)
         commit('set_loginState', true)
+        setToken(userInfo.id)
         return true
       } else {
         return false
@@ -60,9 +59,11 @@ const user = {
       return res.data.success
     },
     // 登出
-    logout: ({ commit }) => {
+    logoutAct: ({ commit }) => {
       commit('set_userInfo', {})
       commit('set_loginState', false)
+      removeToken()
+      return true
     }
   }
 }
