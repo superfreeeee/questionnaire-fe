@@ -132,7 +132,7 @@
           <el-input
             type="textarea"
             placeholder="回答"
-            style="width: 500px; margin:10px 0; padding-right: 400px;"
+            style="display: block; width: 500px; margin:10px 0; padding-right: 400px;"
           >
           </el-input>
         </div>
