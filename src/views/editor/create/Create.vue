@@ -26,9 +26,9 @@
     <el-divider />
 
     <div style="height: 50px; text-align: left; line-height: 50px">
-      <el-radio v-model="radio" label="1" @change="invisibleDatePicker(1)">手动结束收集</el-radio>
+      <el-radio v-model="radio" label="1" @change="toggleDatepicker(false)">手动结束收集</el-radio>
       <el-divider direction="vertical"/>
-      <el-radio v-model="radio" label="2" @change="visibleDatepicker(2)">开始时间-结束时间</el-radio>
+      <el-radio v-model="radio" label="2" @change="toggleDatepicker(true)">开始时间-结束时间</el-radio>
     </div>
     <div style="height: 30px; text-align: left; line-height: 30px; margin-bottom: 40px" v-if="datepicker">
       <el-date-picker
@@ -38,6 +38,7 @@
         start-placeholder="开始日期"
         end-placeholder="结束日期"
         v-if="datepicker"
+        @change="changeDate()"
       >
       </el-date-picker>
     </div>
@@ -192,11 +193,31 @@ export default {
       'updatePaperInfo',
       'activatePaper'
     ]),
-    visibleDatepicker() {
-      this.datepicker = true
+    changeDate() {
+      // console.log(this.date)
+      const transfer = date => `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} 00:00:00`
+      let startTime = transfer(this.date[0])
+      let endTime = transfer(this.date[1])
+      const newPaperInfo = {
+        ...this.paperInfo,
+        startTime,
+        endTime
+      }
+      console.log(newPaperInfo)
+      this.updatePaperInfo(newPaperInfo)
     },
-    invisibleDatePicker() {
-      this.datepicker = false
+    toggleDatepicker(bool) {
+      this.datepicker = bool
+      if(!bool) {
+        this.date = null
+        const newPaperInfo = {
+          ...this.paperInfo,
+          startTime: null,
+          endTime: null
+        }
+        console.log(newPaperInfo)
+        this.updatePaperInfo(newPaperInfo)
+      }
     },
     updatePaper() {
       console.log('invoke updatePaper')

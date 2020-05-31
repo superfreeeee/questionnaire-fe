@@ -171,7 +171,7 @@ const paper = {
     },
     updatePaperInfo: async(_, paperInfo) => {
       const res = await updatePaperAPI(paperInfo)
-      console.log(res)
+      // console.log(res)
       return res && res.data.success
     },
     deletePaper: async({ state }, index) => {
