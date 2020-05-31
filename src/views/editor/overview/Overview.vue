@@ -48,7 +48,7 @@
             v-if="paper.status === 'START'"
             type="text"
             style="float: left"
-            @click="handleShare()"
+            @click="handleShare(paper.id)"
             icon="el-icon-share"
             >发放链接</el-button
           >
@@ -106,8 +106,8 @@ export default {
       console.log(`check paper detail with paperId: ${paperId}`)
       this.$router.push({ name: 'monitor', params: { paperId } })
     },
-    handleShare() {
-      this.$router.push({ name: 'paperlink' })
+    handleShare(paperId) {
+      this.$router.push({ name: 'paperlink', params: { paperId } })
     },
     editPaper(paperId) {
       this.editOldPaper(paperId).then(res => {

@@ -204,7 +204,11 @@ export default {
         endTime
       }
       console.log(newPaperInfo)
-      this.updatePaperInfo(newPaperInfo)
+      this.updatePaperInfo(newPaperInfo).then((res) => {
+        if (!res) {
+          this.$message.success('网路异常')
+        }
+      })
     },
     toggleDatepicker(bool) {
       this.datepicker = bool
@@ -216,7 +220,11 @@ export default {
           endTime: null
         }
         console.log(newPaperInfo)
-        this.updatePaperInfo(newPaperInfo)
+        this.updatePaperInfo(newPaperInfo).then((res) => {
+          if (!res) {
+            this.$message.success('网路异常')
+          }
+        })
       }
     },
     updatePaper() {
@@ -290,8 +298,7 @@ export default {
       question.options.splice(index, 1)
     },
     submitpaper: async function() {
-      console.log('submitPaper')
-      console.log(this.paperInfo.id)
+      console.log(`submitPaper with paperId: ${this.paperInfo.id}`)
       // 保存所有题目
       let i = 0
       for (let question of this.questionList) {

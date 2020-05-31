@@ -169,10 +169,14 @@ const paper = {
         return false
       }
     },
-    updatePaperInfo: async(_, paperInfo) => {
+    updatePaperInfo: async({ commit }, paperInfo) => {
       const res = await updatePaperAPI(paperInfo)
-      // console.log(res)
-      return res && res.data.success
+      if(res && res.data.success) {
+        commit('set_paperInfo', paperInfo)
+        return true
+      } else {
+        return false
+      }
     },
     deletePaper: async({ state }, index) => {
       const targetPaper = state.paperList[index]
@@ -195,11 +199,13 @@ const paper = {
       }
       
     },
-    activatePaper: async({ state }) => {
-      const paperInfo = state.currentPaper.paperInfo
+    activatePaper: async({ getters }) => {
+      const paperInfo = getters.paperInfo
+      console.log(paperInfo)
       if(paperInfo.startTime == null) {
         paperInfo.status = "START"
       }
+      console.log(paperInfo)
       const res = await updatePaperAPI(paperInfo)
       return res && res.data.success
     },
@@ -212,7 +218,7 @@ const paper = {
         id: questionId,
         ...quesParam,
         title: '',
-        options: null
+        options: []
       }
       if (newQues.type <= 2) {
         // 是單選或多選才有選項
