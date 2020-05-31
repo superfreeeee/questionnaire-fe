@@ -7,15 +7,18 @@
         <span style="display: block; margin-top: 20px">
             問卷鏈接 : 
         </span>
-        <div>
-            <span id="URL"> {{ paperURL }}</span>
+        <div id="paperURL">
+            <span> {{ paperURL }}</span>
         </div>
-        <el-button 
+        <el-button
+        class="copyBtn" 
         type="primary" 
         size="small" 
         style="margin-top: 10px" 
         @click="copyURL()"
-        icon="el-icon-link">
+        icon="el-icon-link"
+        :data-clipboard-text="this.paperURL"
+        >
         複製鏈接
         </el-button>
       </div>
@@ -33,6 +36,7 @@
 </template>
 
 <script>
+import Clipboard from 'clipboard';
 export default {
   name: 'PaperLink',
   data() {
@@ -44,6 +48,8 @@ export default {
   },
   mounted() {
       this.paperId = this.$route.params.paperId
+      var copyBtn = document.getElementsByClassName("copyBtn")
+      this.clipboard = new Clipboard(copyBtn)
   },
   methods: {
       copyURL() {
