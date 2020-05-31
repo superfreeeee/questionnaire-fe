@@ -1,6 +1,9 @@
 <template>
   <div class="bg">
-    <div class='customer'>
+    <div v-if="!active" class="customer">
+      <div style="margin-top: 30%" class="title">来晚一步<br/>问卷已经结束收集咯！</div>
+    </div>
+    <div v-else class="customer">
       <div class="title">{{ customerPaper.title }}</div>
       <div class="subtitle">{{ customerPaper.description }}</div>
       <el-form
@@ -37,10 +40,9 @@
                 :key="option.id"
                 style="margin-bottom: 10px"
               >
-                <el-radio
-                  :label="option.content"
-                  border
-                >{{ option.content }}</el-radio>
+                <el-radio :label="option.sequence" border>
+                  {{option.content}}
+                </el-radio>
               </div>
             </el-radio-group>
             <el-checkbox-group
@@ -52,22 +54,22 @@
                 :key="option.id"
                 style="margin-bottom: 10px"
               >
-                <el-checkbox
-                  :label="option.content"
-                  border
-                >{{ option.content }}</el-checkbox>
+                <el-checkbox :label="option.sequence" border>{{
+                  option.content
+                }}</el-checkbox>
               </div>
             </el-checkbox-group>
           </el-form-item>
         </div>
-        
+
         <el-form-item>
-          <el-button type="primary" size="large" @click="submitAnswer()">完成填写！</el-button>
+          <el-button type="primary" size="large" @click="submitAnswer()"
+            >完成填写！</el-button
+          >
         </el-form-item>
       </el-form>
     </div>
   </div>
-  
 </template>
 
 <script>
@@ -77,24 +79,32 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'Customer',
   data() {
+    const rules = {
+      1: [
+        {  required: true, trigger: 'change', message: '必须选择一个' }
+      ],
+      2: [
+        { type: 'array', required: true, trigger: 'change', message: '多选至少选一个' }
+      ],
+      3: [
+        { required: true, trigger: 'blur', message: '输入不可为空' }
+      ]
+    }
     return {
-      rules: {
-        1: [
-          {  required: true, trigger: 'change', message: '必须选择一个' }
-        ],
-        2: [
-          { type: 'array', required: true, trigger: 'change', message: '多选至少选一个' }
-        ],
-        3: [
-          { required: true, trigger: 'blur', message: '输入不可为空' }
-        ]
-      },
+      active: false,
+      rules,
       paperId: -1
     }
   },
   mounted() {
     this.paperId = this.$route.params.paperId
-    this.getFullPaper(this.paperId)
+    this.getFullPaper(this.paperId).then(res => {
+      if(res) {
+        this.active = this.customerPaper.status === 'START'
+      } else {
+        this.$message.error('网路异常，请重新整理')
+      }
+    })
     // console.log(`paperId: ${this.paperId}`)
   },
   computed: {
@@ -108,11 +118,27 @@ export default {
       'submitAnswers'
     ]),
     buildAnswers() {
+      const buildCreateTime = () => {
+        const t = new Date()
+        const createTime = `${t.getFullYear()}-${t.getMonth() + 1}-${t.getDate()} ${t.getHours()}:${t.getMinutes()}:${t.getSeconds()}`
+        return createTime
+      }
       const answers = []
+      const paperId = this.customerPaper.id
+      const createTime = buildCreateTime()
       for(let question of this.customerPaper.questionList) {
+        let answerContent = question.answer
+        if(answerContent instanceof Array) {
+          answerContent = answerContent.reduce((s, c) => `${s},${c}`)
+        } else {
+          answerContent = String(answerContent)
+        }
         answers.push({
+          paperId,
           questionId: question.id,
-          content: question.answer
+          questionType: question.type,
+          createTime,
+          answerContent,
         })
       }
       return answers
@@ -120,14 +146,18 @@ export default {
     submitAnswer() {
       this.$refs.customerForm.validate((valid) => {
         if(valid) {
-          // console.log('valid')
+          console.log(`form valid and submit answer`)
           const answers = this.buildAnswers()
-          // console.log(answers)
-          this.$store.dispatch('submitAnswers', answers)
-          this.$message.success('提交成功')
-          this.$router.push({ name: 'complete', params: { paperId: this.paperId } })
+          console.log(answers)
+          this.submitAnswers(answers).then(res => {
+            if(res) {
+              this.$message.success('提交成功')
+              this.$router.push({ name: 'complete', params: { paperId: this.paperId } })
+            } else {
+              this.$message.error('提交失败，请检查网络状态')
+            }
+          })
         } else {
-          // console.log('Invalid')
           this.$message.error('问卷不可有空栏')
         }
       })
@@ -172,5 +202,4 @@ export default {
 .questionTitle {
   font-size: 25px;
 }
-
 </style>

@@ -32,9 +32,9 @@
               </el-table-column>
             </el-table>
 
-            <el-table v-if="question.type === 3" :data="question.optionStatistics" border stripe style="width: 100%;margin-bottom: 40px">
-              <el-table-column label="序号" prop="id" width="100"></el-table-column>
-              <el-table-column label="答案文本" prop="content"></el-table-column>
+            <el-table v-if="question.type === 3" :data="question.answerVOList" border stripe style="width: 100%;margin-bottom: 40px">
+              <el-table-column label="序号" type="index" width="100"></el-table-column>
+              <el-table-column label="答案文本" prop="answerContent"></el-table-column>
             </el-table>
 
           </div>
