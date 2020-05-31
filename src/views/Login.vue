@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <el-card class="board" v-if="currentPage === 'login'">
+    <el-card class="board" v-show="currentPage === 'login'">
       <div slot="header">
         <span class="title">登录</span>
         <el-button
@@ -46,7 +46,7 @@
         </el-form-item>
       </el-form>
     </el-card>
-    <el-card class="board" v-if="currentPage === 'register'">
+    <el-card class="board" v-show="currentPage === 'register'">
       <div slot="header">
         <span class="title">注册</span>
         <el-button
@@ -223,8 +223,7 @@ export default {
     }
   },
   mounted() {
-    // console.log('mounted')
-    this.registerKeyboardListener(this.currentPage)
+    this.goto('login')
   },
   destroyed() {
     // console.log('destroyed')
@@ -237,25 +236,23 @@ export default {
     ]),
     registerKeyboardListener(page) {
       document.onkeypress = null
-      if(page === 'login') {
-        document.onkeypress = (e) => {
-          if (e.charCode === 13) {
-            this.submitLogin()
-          }
-        }
-      } else if(page === 'register') {
-        document.onkeypress = (e) => {
-          if (e.charCode === 13) {
-            this.submitRegister()
-          }
-        }
-      }
+
     },
     goto(page) {
-      this.registerKeyboardListener(page)
+      document.onkeypress = null
+      const formName = page.charAt(0).toUpperCase() + page.substring(1)
+      document.onkeypress = (e) => {
+        if (e.charCode === 13) {
+          this['submit' + formName]()
+        }
+      }
       this.currentPage = page
+      this.$nextTick(() => {
+        this.$refs[page + 'Form'].resetFields()
+      })
     },
     submitLogin() {
+      console.log('submit login')
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           // console.log(this.loginForm)
@@ -277,6 +274,7 @@ export default {
       })
     },
     submitRegister() {
+      console.log('submit register')
       this.$refs.registerForm.validate((valid) => {
         if (valid) {
           console.log(this.registerForm)

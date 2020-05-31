@@ -22,3 +22,17 @@ new Vue({
   store,
   render: h => h(App)
 }).$mount('#app')
+
+import { Message } from 'element-ui'
+
+axios.interceptors.response.use((response) => {
+  switch (response.status) {
+    case 200:
+      return response
+    case 404:
+      return false
+    default:
+      Message.error(response.data.message)
+      return false
+  }
+})
