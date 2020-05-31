@@ -1,11 +1,11 @@
 <template>
   <div class="paperlink">
     <div class="paperlink-header">
-      <span style="font-size: 25px">問卷發放</span>
+      <span style="font-size: 25px">问卷发放</span>
     </div>
     <div class="paperlink-URL">
       <span style="display: block; margin-top: 20px">
-        問卷鏈接 :
+        问卷链接 :
       </span>
       <div id="paperURL">
         <span> {{ paperURL }}</span>
@@ -19,7 +19,7 @@
         icon="el-icon-link"
         :data-clipboard-text="paperURL"
       >
-        複製鏈接
+        复制链接
       </el-button>
     </div>
     <el-divider />
@@ -30,7 +30,7 @@
         @click="browsePaper(paperURL)"
         icon="el-icon-view"
       >
-        預覽問卷
+        预览问卷
       </el-button>
     </div>
     <el-divider />

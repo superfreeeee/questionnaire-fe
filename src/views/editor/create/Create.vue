@@ -69,7 +69,7 @@
             icon="el-icon-plus"
             @click="addOption(ques)"
           >
-            新增選項
+            新增选项
           </el-button>
           <div
             style="padding-right: 600px; margin-top: 10px;"
@@ -101,7 +101,7 @@
             icon="el-icon-plus"
             @click="addOption(ques)"
           >
-            新增選項
+            新增选项
           </el-button>
           <div
             style="padding-right: 600px;"
@@ -129,7 +129,7 @@
         </div>
         <div v-else>
           <div>
-            <el-tag type="info" style="margin-top: 10px">填充题</el-tag>
+            <el-tag type="info" style="margin-top: 10px">简答题</el-tag>
           </div>
           <el-input
             type="textarea"
@@ -139,7 +139,7 @@
           </el-input>
         </div>
         <div style="display: flex; justify-content: flex-end;">
-          <el-button @click="delQues(index)" type="danger">刪除</el-button>
+          <el-button @click="delQues(index)" type="danger">删除</el-button>
           <el-button @click="updQues(index)" type="success">保存</el-button>
           <div style="flex: 0 1 20%"></div>
         </div>
@@ -151,17 +151,17 @@
     </div>-->
     <div style="padding-bottom: 20px">
       <el-button v-if="Listempty" type="success" @click="submitpaper()"
-        >發放問卷 !</el-button
+        >发放问卷 !</el-button
       >
       <el-divider v-if="Listempty" direction="vertical" />
       <el-dropdown @command="addQues">
         <el-button type="primary"
-          >新增問題<i class="el-icon-arrow-down el-icon--right"></i
+          >新增问题<i class="el-icon-arrow-down el-icon--right"></i
         ></el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item command="1">單選</el-dropdown-item>
-          <el-dropdown-item command="2" divided>多選</el-dropdown-item>
-          <el-dropdown-item command="3" divided>簡答</el-dropdown-item>
+          <el-dropdown-item command="1">单选</el-dropdown-item>
+          <el-dropdown-item command="2" divided>多选</el-dropdown-item>
+          <el-dropdown-item command="3" divided>简答</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
