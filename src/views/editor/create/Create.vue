@@ -61,6 +61,7 @@
         >
         </el-input>
         <div v-if="ques.type === 1">
+          <el-tag type="info" style="margin-top: 10px">单选题</el-tag>
           <el-button
             style="display: block; margin-top: 10px"
             type="primary"
@@ -92,6 +93,7 @@
           </div>
         </div>
         <div v-else-if="ques.type === 2">
+          <el-tag type="info" style="margin-top: 10px">多选题</el-tag>
           <el-button
             style="display: block; margin-top: 10px"
             type="primary"
@@ -125,13 +127,15 @@
             </el-button>
           </div>
         </div>
-        <el-input
-          v-else
-          type="textarea"
-          placeholder="回答"
-          style="width: 500px; margin:10px 0; padding-right: 400px;"
-        >
-        </el-input>
+        <div v-else>
+          <el-tag type="info" style="margin-top: 10px">填充题</el-tag>
+          <el-input
+            type="textarea"
+            placeholder="回答"
+            style="width: 500px; margin:10px 0; padding-right: 400px;"
+          >
+          </el-input>
+        </div>
         <div style="display: flex; justify-content: flex-end;">
           <el-button @click="delQues(index)" type="danger">刪除</el-button>
           <el-button @click="updQues(index)" type="success">保存</el-button>
