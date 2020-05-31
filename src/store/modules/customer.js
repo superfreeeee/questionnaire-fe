@@ -1,4 +1,4 @@
-import { reviewPaperAPI, checkPaperAPI } from '../../api/paper/paper'
+import { reviewPaperAPI, checkPaperAPI, updatePaperAPI } from '../../api/paper/paper'
 import { addAnswersAPI } from '../../api/customer/answer'
 
 const paper = {
@@ -233,6 +233,13 @@ const paper = {
       //     },
       //   ],
       // }
+    },
+    terminateCollection: async(_, paper) => {
+      const paperInfo = { ...paper }
+      paper.status = paperInfo.status = "STOP"
+      const res = await updatePaperAPI(paperInfo)
+      console.log(res)
+      return res && res.data.success
     },
     submitAnswers: async(_, answers) => {
       console.log('submit answers in actions')
