@@ -99,7 +99,7 @@ export default {
     ...mapActions(['getAllPapers', 'deletePaper', 'editOldPaper']),
     ...mapMutations(['set_createPaperVisible']),
     createPaper() {
-      console.log(this.set_createPaperVisible)
+      // console.log(this.set_createPaperVisible)
       this.set_createPaperVisible(true)
     },
     checkPaperDetail(paperId) {

@@ -22,7 +22,10 @@
             :prop="`questionList.${index}.answer`"
             :rules="rules[question.type]"
           >
-            <span slot="label" class="questionTitle">{{ question.title }}</span>
+            <span slot="label" class="questionTitle">
+              问题 {{ index + 1 }}：{{ question.title }}
+              <el-tag>{{ ['','单选题','多选题','简答题'][question.type] }}</el-tag>
+            </span>
             <el-input
               v-if="question.type === 3"
               style="width: 80%;"
