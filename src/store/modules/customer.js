@@ -238,8 +238,43 @@ const paper = {
       const paperInfo = { ...paper }
       paper.status = paperInfo.status = "STOP"
       const res = await updatePaperAPI(paperInfo)
-      console.log(res)
+      // console.log(res)
+      console.log(paper)
       return res && res.data.success
+    },
+    restartCollection: async({ commit, getters }, date) => {
+      const mp = getters.monitorPaper
+      let newPaperInfo = {
+        ...mp,
+      }
+      if(date) {
+        const transfer = date => `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} 00:00:00`
+        const startTime = transfer(date[0])
+        const endTime = transfer(date[1])
+        mp.startTime = newPaperInfo.startTime = startTime
+        mp.endTime = newPaperInfo.endTime = endTime
+
+        const current = transfer(new Date())
+        if(endTime <= current) {
+          mp.status = newPaperInfo.status = "STOP"
+        } else if(current >= transfer(date[0]) && current <= transfer(date[1])) {
+          mp.status = newPaperInfo.status = "START"
+        } else {
+          mp.status = newPaperInfo.status = "INIT"
+        }
+      } else {
+        mp.startTime = newPaperInfo.startTime = null
+        mp.endTime = newPaperInfo.endTime = null
+        mp.status = newPaperInfo.status = "START"
+      }
+      console.log(newPaperInfo)
+      const res = await updatePaperAPI(newPaperInfo)
+      if(res && res.data.success) {
+        commit('set_paperStatistic',newPaperInfo)
+        return true
+      } else {
+        return false
+      }
     },
     submitAnswers: async(_, answers) => {
       console.log('submit answers in actions')

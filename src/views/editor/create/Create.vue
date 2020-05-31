@@ -184,6 +184,7 @@ export default {
     console.log('Create with paperInfo & questionList')
     console.log(this.paperInfo)
     console.log(this.questionList)
+    this.toggleDatepicker(false)
   },
   computed: {
     ...mapGetters(['paperInfo', 'questionList']),
@@ -212,7 +213,7 @@ export default {
       console.log(newPaperInfo)
       this.updatePaperInfo(newPaperInfo).then((res) => {
         if (!res) {
-          this.$message.success('网路异常')
+          this.$message.error('网路异常')
         }
       })
     },
@@ -228,7 +229,7 @@ export default {
         console.log(newPaperInfo)
         this.updatePaperInfo(newPaperInfo).then((res) => {
           if (!res) {
-            this.$message.success('网路异常')
+            this.$message.error('网路异常')
           }
         })
       }
@@ -238,7 +239,7 @@ export default {
       console.log(this.paperInfo)
       this.updatePaperInfo(this.paperInfo).then((res) => {
         if (!res) {
-          this.$message.success('网路异常')
+          this.$message.error('网路异常')
         }
       })
     },

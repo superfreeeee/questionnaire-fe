@@ -12,10 +12,39 @@
       <el-divider></el-divider>
       <el-main>
         <div class="analyzeTables" :model="monitorPaper">
+          <div style="text-align: left; margin: 5px 0">
+            <span style="font-size: 20px; font-weight: 450" v-if="monitorPaper.endTime != null">发放时段：{{ monitorPaper.startTime }} 到 {{ monitorPaper.endTime }}</span>
+            <span style="font-size: 20px; font-weight: 450" v-else>发放时段：人工操作</span>
+          </div>
           <div style="text-align: left">
-            <el-button v-if="monitorPaper.endTime == null && monitorPaper.status === 'START'" type="danger" @click="endCollection()"
+            <el-button v-if="monitorPaper.status === 'START'" type="danger" @click="endCollection()"
               >结束收集</el-button
             >
+            <el-button v-if="monitorPaper.status === 'STOP' || monitorPaper.status === 'INIT'" type="warning" @click="showResetModal = true"
+              >重新发放</el-button
+            >
+            <el-dialog title="设定收集时间" :visible.sync="showResetModal">
+              <div style="height: 50px; text-align: left; line-height: 50px">
+                <el-radio v-model="radio" label="1">手动结束收集</el-radio>
+                <el-divider direction="vertical"/>
+                <el-radio v-model="radio" label="2">开始时间-结束时间</el-radio>
+              </div>
+              <div style="height: 30px; text-align: left; line-height: 30px; margin-bottom: 40px" v-if="datepicker">
+                <el-date-picker
+                  v-model="date"
+                  type="daterange"
+                  range-separator="至"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
+                  v-if="datepicker"
+                >
+                </el-date-picker>
+              </div>
+              <div slot="footer" class="dialog-footer">
+                <el-button @click="showResetModal = false">取 消</el-button>
+                <el-button type="primary" @click="resetCollection()">确 定</el-button>
+              </div>
+            </el-dialog>
           </div>
           <div
             v-for="(question, index) in monitorPaper.questionStatistics"
@@ -84,7 +113,12 @@ import { mapGetters, mapMutations, mapActions } from 'vuex'
 export default {
   name: 'Monitor',
   data() {
-    return {}
+    return {
+      showResetModal: false,
+      // datepicker: false,
+      radio: '1',
+      date: ''
+    }
   },
   mounted() {
     const paperId = this.$route.params.paperId
@@ -95,10 +129,13 @@ export default {
     })
   },
   computed: {
-    ...mapGetters(['monitorPaper'])
+    ...mapGetters(['monitorPaper']),
+    datepicker() {
+      return this.radio === '2'
+    }
   },
   methods: {
-    ...mapActions(['getFullPaperStatistic', 'terminateCollection']),
+    ...mapActions(['getFullPaperStatistic', 'terminateCollection', 'restartCollection']),
     endCollection() {
       this.$confirm('确定结束此问卷收集？', '结束收集', {
         confirmButtonText: '确定',
@@ -107,15 +144,27 @@ export default {
       })
         .then(() => {
           this.terminateCollection(this.monitorPaper).then(res => {
-            console.log(res)
-          })
-          this.$message({
-            type: 'warning',
-            message: '问卷收集结束！'
+            this.$message({
+              type: 'warning',
+              message: '问卷收集结束！'
+            })
           })
         })
         .catch(() => {})
-    }
+    },
+    resetCollection() {
+      const date = this.datepicker ? this.date : null
+      console.log(`date: ${date}`)
+      this.restartCollection(date).then(res => {
+        if(res) {
+          this.$message.success('重新发放成功')
+          console.log(this.monitorPaper)
+        } else {
+          this.$message.error('发放失败')
+        }
+      })
+      this.showResetModal = false
+    },
   }
 }
 </script>
