@@ -13,6 +13,9 @@
       <el-main>
         <div class="analyzeTables" :model="monitorPaper">
           <div style="text-align: left; margin: 5px 0">
+            <span style="font-size: 20px; font-weight: 450">问卷状态：{{ ({"INIT":'编辑中',"START":"已发放","STOP":"已回收"}[monitorPaper.status]) }}</span>
+          </div>
+          <div style="text-align: left; margin: 5px 0">
             <span style="font-size: 20px; font-weight: 450" v-if="monitorPaper.endTime != null">发放时段：{{ monitorPaper.startTime }} 到 {{ monitorPaper.endTime }}</span>
             <span style="font-size: 20px; font-weight: 450" v-else>发放时段：人工操作</span>
           </div>

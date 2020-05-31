@@ -254,10 +254,12 @@ const paper = {
         mp.startTime = newPaperInfo.startTime = startTime
         mp.endTime = newPaperInfo.endTime = endTime
 
-        const current = transfer(new Date())
-        if(endTime <= current) {
+        const startT = Date.parse(startTime)
+        const endT = Date.parse(endTime)
+        const current = new Date().valueOf()
+        if(endT <= current) {
           mp.status = newPaperInfo.status = "STOP"
-        } else if(current >= transfer(date[0]) && current <= transfer(date[1])) {
+        } else if(current >= startT && current <= endT) {
           mp.status = newPaperInfo.status = "START"
         } else {
           mp.status = newPaperInfo.status = "INIT"
