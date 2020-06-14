@@ -3,7 +3,7 @@
     <div v-if="!active" class="customer">
       <div style="margin-top: 30%" class="title">来晚一步<br/>问卷已经结束收集咯！</div>
     </div>
-    <div v-if="!active" class="customer">
+    <div v-else class="customer">
       <div class="title">{{ customerPaper.title }}</div>
       <div class="subtitle">{{ customerPaper.description }}</div>
       <el-form
