@@ -79,7 +79,7 @@
             <span slot="title" style="font-size: 25px; font-weight: 450">问卷填写记录</span>
             <el-table :data="answers.rows" max-height="600px" stripe="">
               <el-table-column property="date" label="填写时间" width="200"></el-table-column>
-              <el-table-column v-for="(i, j) in Array(answers.questions)" :key="j" :property="'q'+(j+1)" :label="'问题'+(j+1)" min-width="300"></el-table-column>
+              <el-table-column v-for="(ques, j) in monitorPaper.questionStatistics" :key="j" :property="'q'+(j+1)" :label="'第'+(j+1)+'题'+ques.title" min-width="300"></el-table-column>
             </el-table>
           </el-dialog>
           <div
