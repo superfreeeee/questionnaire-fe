@@ -1,10 +1,11 @@
 import { reviewPaperAPI, checkPaperAPI, updatePaperAPI } from '../../api/paper/paper'
-import { addAnswersAPI } from '../../api/customer/answer'
+import { addAnswersAPI, reviewAnswersAPI } from '../../api/customer/answer'
 
 const paper = {
   state: {
     paper: {}, /* Paper */
-    paperStatistic: {}
+    paperStatistic: {},
+    answers: []
   },
   mutations: {
     set_paper(state, paper) {
@@ -12,6 +13,9 @@ const paper = {
     },
     set_paperStatistic(state,paperStatistic){
       state.paperStatistic = paperStatistic
+    },
+    set_answers(state, answers) {
+      state.answers = answers
     }
   },
   actions: {
@@ -38,6 +42,7 @@ const paper = {
     getFullPaperStatistic: async({commit},paperId) =>{
       console.log(`get paperStatistic with paperId: ${paperId}`)
       const res = await reviewPaperAPI(paperId)
+      console.log(res)
       if(res && res.data.success) {
         const paperStatistic = res.data.content
         for(let question of paperStatistic.questionStatistics) {
@@ -51,6 +56,31 @@ const paper = {
         }
         console.log(paperStatistic)
         commit('set_paperStatistic',paperStatistic)
+        return true
+      } else {
+        return false
+      }
+    },
+    getAnswersRow: async({ commit }, paperId) => {
+      console.log(`getAnswerRow with paperId: ${paperId}`)
+      const res = await reviewAnswersAPI(paperId)
+      if(res && res.data.success) {
+        const answerRows = res.data.content
+        const answers = {
+          questions: answerRows[0].length - 1,
+          rows: []
+        }
+        for(let row of answerRows) {
+          const record = {}
+          record.date = row[0]
+          for(let i=1, end=row.length ; i<end; i++) {
+            record['q' + i] = row[i]
+          }
+          answers.rows.push(record)
+        }
+        console.log('get answers')
+        console.log(answers)
+        commit('set_answers', answers)
         return true
       } else {
         return false

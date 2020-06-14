@@ -3,7 +3,7 @@
     <div v-if="!active" class="customer">
       <div style="margin-top: 30%" class="title">来晚一步<br/>问卷已经结束收集咯！</div>
     </div>
-    <div v-else class="customer">
+    <div v-if="!active" class="customer">
       <div class="title">{{ customerPaper.title }}</div>
       <div class="subtitle">{{ customerPaper.description }}</div>
       <el-form
@@ -32,6 +32,7 @@
               type="textarea"
               size="medium"
               rows="4"
+              :disabled="!active"
               v-model="question.answer"
             ></el-input>
             <el-radio-group
@@ -43,7 +44,11 @@
                 :key="option.id"
                 style="margin-bottom: 10px"
               >
-                <el-radio :label="option.sequence" border>
+                <el-radio 
+                  :label="option.sequence" 
+                  border
+                  :disabled="!active"
+                >
                   {{option.content}}
                 </el-radio>
               </div>
@@ -57,9 +62,10 @@
                 :key="option.id"
                 style="margin-bottom: 10px"
               >
-                <el-checkbox :label="option.sequence" border>{{
-                  option.content
-                }}</el-checkbox>
+                <el-checkbox :label="option.sequence" 
+                  :disabled="!active"
+                  border
+                >{{option.content}}</el-checkbox>
               </div>
             </el-checkbox-group>
           </el-form-item>
